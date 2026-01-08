@@ -7,6 +7,9 @@
     <meta property="og:title" content="Épicerie en Mer ⚓">
 <meta property="og:description" content="Commandez vos boissons, snacks et matériel de pêche depuis votre bateau !">
 <meta property="og:image" content="logo.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
 
     <link rel="icon" href="https://fav.farm/⚓">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Patrick+Hand&display=swap" rel="stylesheet">
@@ -16,19 +19,21 @@
         /* ==========================================================
    INTERRUPTEUR : MODE CATALOGUE vs MODE COMMANDE
    
-   Pour CACHER le panier et les boutons +/-, 
+   Pour CACHER le panier et les boutons +/- ou la banderole, 
    ENLÈVE les deux barres "//" devant .panier-actif
    
-   Pour ACTIVE le panier et les boutons +/-,
+   Pour ACTIVE le panier et les boutons +/- ou la banderole ,
    AJOUTE lez deux barres "//" devant .panier-actif
    ========================================================== */
 
-.panier-actif { display: none !important; } ex
+.panier-actif { display: none !important; } 
+#maBanderole { display: none !important; }
 
 /* ========================================================== */
 
         /* --- CONFIGURATION GÉNÉRALE --- */
         html { scroll-behavior: smooth; }
+        
       
 .banderole-promo {
     width: 100%;
@@ -59,6 +64,30 @@
     0% { transform: translateX(0); }
     100% { transform: translateX(-100%); }
 }
+
+.header-titre {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 10;
+}
+
+.localisation {
+    font-size: 1.2rem;
+    color: #d84315; /* Un orange/rouge pour rappeler les balises ou le sable */
+    font-weight: bold;
+    margin: -5px 0 10px 0; /* On le colle un peu au titre */
+    text-shadow: 1px 1px 2px white;
+    font-family: 'Patrick Hand', cursive;
+}
+
+.slogan {
+    font-size: 1.4rem;
+    color: #0c4a6e;
+    margin-top: 0;
+}
+
 
       
         body {
@@ -291,7 +320,7 @@ div[style*="max-width: 800px"] {
 
         .prix {
             background: #0c4a6e;
-            color: white;
+            color: #b2ebf2;
             padding: 2px 12px;
             border-radius: 8px;
             font-family: 'Fredoka One', cursive;
@@ -301,7 +330,7 @@ div[style*="max-width: 800px"] {
     bottom: 25px;
     left: 25px;
     background: #0c4a6e;
-    color: white;
+    color: #b2ebf2;
     padding: 12px 20px;
     border-radius: 30px;
     text-decoration: none;
@@ -345,7 +374,7 @@ div[style*="max-width: 800px"] {
     width: 55px;
     height: 55px;
     background-color: #0c4a6e;
-    color: white;
+    color: #b2ebf2;
     text-decoration: none;
     border-radius: 50%;
     display: flex;
@@ -413,7 +442,7 @@ footer {
     font-size: 0.8rem;
     opacity: 0.6;
     margin-top: 20px;
-    border-top: 1px solid rgba(12, 74, 110, 0.1);
+   border-top: 1px ; 
     padding-top: 15px;
     text-align: center;
 }
@@ -549,30 +578,36 @@ h1 {
         <div class="vague-calque v3"></div>
         <div class="vague-calque v4"></div>
     </div>
+    
 
-<div class="banderole-promo">
-    <div class="defilement">
-        <span>🔥 PROMO : -10% sur le matériel de pêche ce week-end ! ⚓</span>
-        <span>🍦 Glaces à prix givrés pour les moussaillons ! ❄️</span>
-        <span>🔥 PROMO : -10% sur le matériel de pêche ce week-end ! ⚓</span>
-        <span>🍦 Glaces à prix givrés pour les moussaillons ! ❄️</span>
+<div id="maBanderole" class="banderole-container">
+    <div class="banderole-ruban">
+        <div class="defilement">
+            <span>🔥 PROMO : -10% sur le matériel de pêche ce week-end ! ⚓</span>
+            <span>🍦 Glaces à prix givrés pour les moussaillons ! ❄️</span>
+            <span>🔥 PROMO : -10% sur le matériel de pêche ce week-end ! ⚓</span>
+        </div>
     </div>
 </div>
+
 
 <div class="logo-container">
     <img src="logo.png" alt="Logo Épicerie en Mer" class="logo-site">
 </div>
-<h1>ÉPICERIE EN MER</h1>
 
-    <p style="font-size: 1.2rem; font-style: italic; color: #0c4a6e; text-align: center; margin-top: 0;">"Le bateau qui a tout ce qu'il vous faut !"</p>
+   <div class="header-titre">
+    <h1>ÉPICERIE EN MER</h1>
+    <p class="localisation">- De l'île aux oiseaux au Cap Ferret -</p>
+    <p class="slogan">Le bateau qui a tout ce qu'il vous faut !</p>
+</div>
+ 
     
         <div style="width: 100%; max-width: 800px; margin-bottom: 15px; padding: 0 10px; box-sizing: border-box;">
 
     <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="🔍 Rechercher un produit..." 
-    style="width: 80%; max-width: 600px; display: block; margin: 0 auto 20px auto; padding: 12px 20px; border-radius: 25px;z-index: 10 ;border: 2px solid #0c4a6e; font-family: 'Patrick Hand', cursive; font-size: 1.1rem; outline: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+    style="width: 80%; max-width: 600px; display: block; margin: 0 auto 20px auto; padding: 12px 20px; border-radius: 25px;z-index: 10 ;border: 2px solid #0c4a6e; font-family: 'Patrick Hand', cursive; font-size: 1.1rem; outline: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1);background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(5px); color: #0c4a6e;">
 
     </div>
-
 
     <div class="nav-grid">
         <a href="#boissons" class="btn-bois">BOISSONS</a>
@@ -871,6 +906,7 @@ function viderPanier() {
     }
 }
 
+
 // --- ENVOI DE LA COMMANDE ---
 function envoyerWhatsApp() {
     let m = "Bonjour l'Épicerie en Mer ! ⚓ Voici ma commande :%0A";
@@ -878,7 +914,7 @@ function envoyerWhatsApp() {
     
     for (let i in panier) {
         if (panier[i].qte > 0) {
-            let nomPropre = i.replace(/_/g, ' '); // Rend le nom plus lisible
+            let nomPropre = i.replace(/_/g, ' '); 
             m += `- ${panier[i].qte}x ${nomPropre}%0A`;
             empty = false;
         }
@@ -891,11 +927,17 @@ function envoyerWhatsApp() {
     
     m += `%0ATotal: ${total.toFixed(2)}€%0APosition Bateau : [À compléter] ⛵`;
     
-    // Ouvre WhatsApp dans un nouvel onglet
+    // 1. D'abord on ouvre WhatsApp
     window.open(`https://wa.me/33659821771?text=${m}`, '_blank');
+
+    // 2. ENSUITE on propose de vider le panier (on attend 1 seconde pour laisser WhatsApp s'ouvrir)
+    setTimeout(() => {
+        if(confirm("Commande envoyée vers WhatsApp ! Voulez-vous vider votre panier actuel ?")) {
+            viderPanier();
+        }
+    }, 1000);
 }
 
-// --- NAVIGATION ET UI ---
 
 // --- GESTION DE L'APPARITION DES BOUTONS (FONDU) ---
 const btnRemonter = document.getElementById("scrollTop");
