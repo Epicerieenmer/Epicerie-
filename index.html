@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>Épicerie en Mer</title>
+    <meta property="og:title" content="Épicerie en Mer ⚓">
+<meta property="og:description" content="Commandez vos boissons, snacks et matériel de pêche depuis votre bateau !">
+<meta property="og:image" content="logo.png">
+
+    <link rel="icon" href="https://fav.farm/⚓">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Patrick+Hand&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CONFIGURATION GÉNÉRALE --- */
+        html { scroll-behavior: smooth; }
+      
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Patrick Hand', cursive;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-color: #e0f7fa; /* Fond ciel */
+            position: relative;
+            z-index: 0;
+              }
+              
+        /* --- SYSTÈME DE VAGUES RÉPARTIES (BAS ET MILIEU) --- */
+        .ocean {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .vague-calque {
+            position: absolute;
+            width: 250vw;
+            height: 250vw;
+            left: -75vw;
+            opacity: 0.25;
+            border-radius: 43%;
+        }
+
+        /* Vague 1 : La plus bas (Rose) - S'arrête vers le haut */
+        .v1 {
+            background: linear-gradient(135deg, #f8bbd0, #f48fb1);
+            top: -130vw; /* Elle descend pour libérer le haut de l'écran */
+            animation: derive 20s infinite linear;
+            opacity: 0.45;
+        }
+
+        /* Vague 2 : Milieu (Vert) */
+        .v2 {
+            background: linear-gradient(135deg, #b2dfdb, #80cbc4);
+            top: -160vw; 
+            animation: derive 30s infinite reverse linear;
+        }
+
+        /* Vague 3 : Milieu haut (Bleu) */
+        .v3 {
+            background: linear-gradient(135deg, #b3e5fc, #81d4fa);
+            top: -200vw; 
+            animation: derive 25s infinite linear;
+        }
+
+        /* Vague 4 : Tout en haut (Turquoise) */
+        .v4 {
+            background: linear-gradient(135deg, #b2ebf2, #4dd0e1);
+            top: -300vw; 
+            animation: derive 35s infinite reverse linear;
+        }
+
+        @keyframes derive {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* --- STYLE DU CONTENU --- */
+        h1 {
+            font-family: 'Fredoka One', cursive;
+            color: #0c4a6e;
+            font-size: 2.8rem;
+            text-shadow: 2px 2px 4px white;
+            margin: 10px 0 5px 0;
+            text-align: center;
+        }
+                .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 800px;
+            
+            /* --- CONFIGURATION STICKY --- */
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 20px 10px;
+            margin-bottom: 30px;
+            border-radius: 20px 20px 20px 20px;
+
+            /* AU DÉPART : Totalement invisible */
+            background: transparent;
+            transition: background 0.3s ease;
+
+            /* AU SCROLL : On active l'effet */
+            animation: menu-effet-vagues linear both;
+            animation-timeline: scroll();
+            animation-range: 0px 250px;
+        }
+
+        @keyframes menu-effet-vagues {
+            to {
+                /* On utilise la même couleur de fond que le ciel 
+                   pour bloquer la vue des planches de bois */
+                   background-color: rgba(224, 247, 250, 0.7); /* 0.7 permet de voir les vagues mais cache les planches */
+backdrop-filter: blur(5px); /* Floute les planches qui passent dessous pour qu'on ne voit que les vagues */
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+                border-bottom: 2px solid rgba(12, 74, 110, 0.1);
+            }
+        }
+           
+           /* --- TITRE ET PHRASE --- */
+h1, p {
+    position: relative; /* Indispensable pour que le z-index soit pris en compte */
+    z-index: 10;        /* Même niveau que les planches de bois, donc devant les bulles */
+}
+
+/* --- BARRE DE RECHERCHE --- */
+/* On cible le conteneur de la barre de recherche */
+div[style*="max-width: 800px"] { 
+    position: relative;
+    z-index: 10;
+}
+
+/* --- VAGUES (Optionnel mais conseillé) --- */
+/* On s'assure que les vagues de fond restent bien tout derrière */
+.ocean {
+    z-index: -1;
+}
+
+.bulle {
+    z-index: 1; /* Les bulles sont devant les vagues (-1) mais derrière le reste (10) */
+}
+
+           
+        .btn-bois {
+            /* Fond et aspect visuel */
+            background-image: url('Planche.bois.jpg');
+            background-size: cover;
+            background-position: center;
+            border: 2px solid #0c4a6e;
+            border-radius: 50px;
+            
+            /* Texte */
+            color: #0c4a6e !important;
+            text-align: center;
+            text-decoration: none;
+            font-family: 'Fredoka One', cursive;
+            font-size: 0.85rem;
+            font-weight: 900;
+            text-shadow: 0 0 8px white;
+            
+            /* Structure */
+            padding: 12px 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Transition fluide et rebondissante */
+            
+            /* Ombre portée pour l'effet relief */
+            box-shadow: 0 4px #0c4a6e, 0 8px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent; /* Supprime le carré bleu sur mobile au clic */
+        }
+
+        /* --- EFFET AU SURVOL (Ordinateur) --- */
+        .btn-bois:hover {
+            transform: translateY(-3px); /* Le bouton monte un peu */
+            box-shadow: 0 6px #0c4a6e, 0 12px 20px rgba(0,0,0,0.15);
+            filter: brightness(1.05);
+        }
+        
+        /* Le bouton se soulève et projette une ombre portée */
+        .btn-bois:active, .btn-active {
+            transform: translateY(-8px) !important; /* Soulèvement plus marqué */
+            scale: 1 !important; 
+            /* On remplace la bordure dure par une ombre douce et profonde */
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4) !important; 
+            filter: brightness(1.05); /* Un très léger éclaircissement pour simuler la lumière */
+            z-index: 10;
+        }
+            
+        .planche-container {
+            width: 100%;
+            max-width: 700px;
+            margin-bottom: 35px;
+            background-image: url('Planche.bois.jpg'); 
+            background-size: cover;
+            background-position: center 30%;
+            z-index: 10;
+            border: 3px solid #0c4a6e;
+            border-radius: 40px;
+            padding: 15px 30px;
+            box-sizing: border-box;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+            scroll-margin-top: 160px;
+        }
+
+        .titre-section {
+            font-family: 'Fredoka One', cursive;
+            color: #0c4a6e;
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+      
+        .ligne-produit {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.3rem;
+            color: #0c4a6e;
+            margin: 5px 0;
+            font-weight: bold;
+            padding: 8px 0;
+            background: transparent !important; 
+            border-bottom: 1px solid rgba(12, 74, 110, 0.15);
+        }
+        
+        .ligne-produit button:active {
+    transform: scale(0.9);
+    filter: brightness(0.9);
+}
+
+        
+
+        .prix {
+            background: #0c4a6e;
+            color: white;
+            padding: 2px 12px;
+            border-radius: 8px;
+            font-family: 'Fredoka One', cursive;
+        }
+
+        .btn-appel {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background: #0c4a6e;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-family: 'Fredoka One', cursive;
+            z-index: 9999;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+      
+.badge-frais {
+    display: inline-block;
+    background: #b3e5fc;
+    color: #01579b;
+    font-size: 1.5rem;
+    padding: 2px 6px;
+    border-radius: 5px;
+    border: 1px solid white;
+    margin-left: 8px;
+    font-family: 'Fredoka One', cursive;
+    /* On appelle la nouvelle animation combinée */
+    animation: frais-mouvement 2s infinite ease-in-out;
+}
+
+@keyframes frais-mouvement {
+    0% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(1.1) rotate(-5deg); } /* Incline à gauche et zoom */
+    50% { transform: scale(1.1) rotate(5deg); }  /* Incline à droite */
+    75% { transform: scale(1.1) rotate(-5deg); } /* Re-gauche */
+    100% { transform: scale(1) rotate(0deg); }   /* Retour à la normale */
+}
+
+      
+        .scroll-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 55px;
+            height: 55px;
+            background-color: #0c4a6e;
+            color: White;
+            text-decoration: none;
+            border-radius: 50%;
+            display: Flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: 900;
+            z-index: 9999;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.4);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding-bottom: 8px;
+            
+        }
+
+        .scroll-top.active { opacity: 1; visibility: visible; }
+      
+/* --- FOOTER --- */
+footer {
+    width: 100%;
+    max-width: 800px;
+    margin: 60px auto 100px auto; /* Ajoute de l'espace en bas pour pas que le panier cache tout */
+    padding: 30px 10px;
+    border-top: 3px dotted #0c4a6e;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px; 
+    color: #0c4a6e;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+.footer-section { 
+    min-width: 200px; 
+    flex: 1;
+}
+
+.footer-section h3 { 
+    font-family: 'Fredoka One', cursive; 
+    margin-bottom: 10px; 
+}
+
+.footer-copyright {
+    width: 100%;
+    font-size: 0.8rem;
+    opacity: 0.6;
+    margin-top: 20px;
+}
+
+/* --- BOUTONS FLOTTANTS --- */
+.btn-appel, .scroll-top {
+    transition: bottom 0.3s ease-in-out;
+}
+
+.boutons-decales {
+    bottom: 85px !important; 
+}
+        
+        
+       /* --- Bulles décoratives --- */
+       .bulle {
+         position: fixed; /* Fixé par rapport à l'écran */
+          bottom: -20px; /* Commence sous l'écran */
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.5); /* Semi-transparent blanc */
+    z-index: 2;
+    border-radius: 50%;
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.8), 0 0 8px rgba(179, 229, 252, 0.7); /* Effet de brillance et de lumière bleue */
+    animation: flotter 10s infinite ease-out; /* Animation principale */
+    pointer-events: none; /* Ne bloque pas le clic sous la bulle */
+    z-index: 0; /* Pour qu'elles soient derrière le contenu, mais au-dessus des vagues */
+    opacity: 0; /* Invisible au départ */
+}
+
+@keyframes flotter {
+    0% {
+        transform: translateY(0) scale(0.5);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1; /* Apparaît */
+    }
+    80% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100vh) scale(1.2); /* Remonte et grossit */
+        opacity: 0; /* Disparaît en haut */
+    }
+}
+
+#panier-flottant {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #0c4a6e;
+    color: white;
+    padding: 15px;
+    z-index: 10000;
+    display: none; /* Caché par défaut, activé par JS */
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
+    box-sizing: border-box;
+}
+
+.btn-commander {
+    background: #0c4a6e;
+    color: white;
+    border: 1px solid white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-family: 'Fredoka One', cursive;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: all 0.3s;
+}
+
+.btn-commander:hover {
+    background: #00b0ff; /* Devient bleu clair au survol */
+    transform: scale(1.05); /* Grossit très légèrement */
+}
+
+
+.logo-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 10;
+}
+
+.logo-site {
+    width: 60%;          /* S'adapte sur téléphone */
+    max-width: 350px;    /* Taille max sur tablette/ordi */
+    height: auto;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    animation: flotterLogo 3s infinite ease-in-out;
+}
+
+
+@keyframes flotterLogo {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+
+h1 {
+    font-family: 'Fredoka One', cursive;
+    color: #0c4a6e;
+    font-size: 2.8rem;
+    text-shadow: 2px 2px 4px white;
+    margin-bottom: 10px; /* <--- AUGMENTE ICI pour éloigner la phrase du titre */
+    text-align: center;
+}
+
+ 
+        
+    </style>
+</head>
+<body>
+    <div class="ocean">
+        <div class="vague-calque v1"></div>
+        <div class="vague-calque v2"></div>
+        <div class="vague-calque v3"></div>
+        <div class="vague-calque v4"></div>
+    </div>
+
+<div class="logo-container">
+    <img src="logo.png" alt="Logo Épicerie en Mer" class="logo-site">
+</div>
+<h1>ÉPICERIE EN MER</h1>
+
+    <p style="font-size: 1.2rem; font-style: italic; color: #0c4a6e; text-align: center; margin-top: 0;">"Le bateau qui a tout ce qu'il vous faut !"</p>
+    
+        <div style="width: 100%; max-width: 800px; margin-bottom: 15px; padding: 0 10px; box-sizing: border-box;">
+
+    <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="🔍 Rechercher un produit..." 
+    style="width: 80%; max-width: 600px; display: block; margin: 0 auto 20px auto; padding: 12px 20px; border-radius: 25px;z-index: 10 ;border: 2px solid #0c4a6e; font-family: 'Patrick Hand', cursive; font-size: 1.1rem; outline: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+
+    </div>
+
+
+    <div class="nav-grid">
+        <a href="#boissons" class="btn-bois">BOISSONS</a>
+        <a href="#snack" class="btn-bois">SNACK</a>
+        <a href="#glace" class="btn-bois">GLACE</a>
+        <a href="#vetement" class="btn-bois">VÊTEMENT</a>
+        <a href="#divers" class="btn-bois">DIVERS</a>
+        <a href="#peche" class="btn-bois">PÊCHE</a>
+    </div>
+    
+
+
+    <div id="boissons" class="planche-container">
+        <h2 class="titre-section">Boissons</h2>
+        <div class="ligne-produit">
+            <span>Jus d'Orange</span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="prix">3.50€</span>
+                <button onclick="changeQuantite('Jus_d_Orange', 3.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span id="qte-Jus_d_Orange">0</span>
+                <button onclick="changeQuantite('Jus_d_Orange', 3.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+            </div>
+        </div>
+        <div class="ligne-produit">
+            <span>Café Pirate</span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="prix">2.00€</span>
+                <button onclick="changeQuantite('Cafe_Pirate', 2.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span id="qte-Cafe_Pirate">0</span>
+                <button onclick="changeQuantite('Cafe_Pirate', 2.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+            </div>
+        </div>
+        <div class="ligne-produit">
+            <span>Eau Gazeuse</span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="prix">2.50€</span>
+                <button onclick="changeQuantite('Eau_Gazeuse', 2.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span id="qte-Eau_Gazeuse">0</span>
+                <button onclick="changeQuantite('Eau_Gazeuse', 2.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+            </div>
+        </div>
+        <div class="ligne-produit">
+            <span>Eau Plate</span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="prix">2.50€</span>
+                <button onclick="changeQuantite('Eau_Plate', 2.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span id="qte-Eau_Plate">0</span>
+                <button onclick="changeQuantite('Eau_Plate', 2.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="snack" class="planche-container">
+        <h2 class="titre-section">Snack</h2>
+        <div class="ligne-produit">
+            <span>Sandwich Mixte</span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="prix">6.00€</span>
+                <button onclick="changeQuantite('Sandwich_Mixte', 6.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span id="qte-Sandwich_Mixte">0</span>
+                <button onclick="changeQuantite('Sandwich_Mixte', 6.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+            </div>
+        </div>
+        <div class="ligne-produit">
+            <span>Paquet de Chips</span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="prix">2.50€</span>
+                <button onclick="changeQuantite('Chips', 2.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span id="qte-Chips">0</span>
+                <button onclick="changeQuantite('Chips', 2.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="glace" class="planche-container">
+<h2 class="titre-section" style="position: relative; display: inline-block; width: 100%;">
+    Glace<span class="badge-frais" style="position: absolute; font-size: 1rem; top: 0; margin-left: 10px;">Frais ! ❄️</span></h2>
+        <div class="ligne-produit">
+            <span>Cône Vanille</span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="prix">3.50€</span>
+                <button onclick="changeQuantite('Cone_Vanille', 3.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span id="qte-Cone_Vanille">0</span>
+                <button onclick="changeQuantite('Cone_Vanille', 3.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+            </div>
+        </div>
+        <div class="ligne-produit">
+            <span>Magnum</span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="prix">4.00€</span>
+                <button onclick="changeQuantite('Magnum', 4.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span id="qte-Magnum">0</span>
+                <button onclick="changeQuantite('Magnum', 4.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="vetement" class="planche-container">
+        <h2 class="titre-section">Vêtement</h2>
+        <div class="ligne-produit">
+            <span>T-shirt Marin</span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="prix">15.00€</span>
+                <button onclick="changeQuantite('Tshirt_Marin', 15.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span id="qte-Tshirt_Marin">0</span>
+                <button onclick="changeQuantite('Tshirt_Marin', 15.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+            </div>
+        </div>
+        <div class="ligne-produit">
+            <span>Casquette</span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="prix">10.00€</span>
+                <button onclick="changeQuantite('Casquette', 10.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span id="qte-Casquette">0</span>
+                <button onclick="changeQuantite('Casquette', 10.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="divers" class="planche-container">
+        <h2 class="titre-section">Divers</h2>
+        <div class="ligne-produit">
+            <span>Crème Solaire</span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="prix">8.50€</span>
+                <button onclick="changeQuantite('Creme_Solaire', 8.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span id="qte-Creme_Solaire">0</span>
+                <button onclick="changeQuantite('Creme_Solaire', 8.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+            </div>
+        </div>
+        <div class="ligne-produit">
+            <span>Lunettes</span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="prix">12.00€</span>
+                <button onclick="changeQuantite('Lunettes', 12.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span id="qte-Lunettes">0</span>
+                <button onclick="changeQuantite('Lunettes', 12.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="peche" class="planche-container">
+        <h2 class="titre-section">Pêche</h2>
+        <div class="ligne-produit">
+            <span>Appâts frais</span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="prix">5.00€</span>
+                <button onclick="changeQuantite('Appats_frais', 5.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span id="qte-Appats_frais">0</span>
+                <button onclick="changeQuantite('Appats_frais', 5.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+            </div>
+        </div>
+        <div class="ligne-produit">
+            <span>Hameçons</span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="prix">2.50€</span>
+                <button onclick="changeQuantite('Hamecons', 2.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span id="qte-Hamecons">0</span>
+                <button onclick="changeQuantite('Hamecons', 2.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+            </div>
+        </div>
+    </div>
+
+     
+<div id="panier-flottant">
+    <div style="font-size: 1.2rem; display:flex; align-items:center; gap:10px; flex:1;">
+        <span>Retrait sur place :</span>
+        <span style="white-space:nowrap; font-family:'Fredoka One'; background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:8px;">
+            Total: <span id="total-prix">0.00</span>€
+        </span>
+        <button onclick="viderPanier()" title="Vider le panier" style="background:none; border:none; font-size:1.2rem; cursor:pointer; padding:5px;">🗑️</button>
+    </div>
+<button onclick="envoyerWhatsApp()" class="btn-commander">Commander ⚓</button>
+
+</div>
+
+     
+<footer>
+    <div class="footer-section">
+        <h3>🕒 HORAIRES</h3>
+        <p>Tous les jours<br>08h00 - 19h00</p>
+    </div>
+    <div class="footer-section">
+        <h3>📞 CONTACT</h3>
+        <p>Tél : 06 59 82 17 71</p>
+        <p>VHF : Canal 72</p>
+    </div>
+    <div class="footer-section">
+        <h3>📍 ACCÈS</h3>
+        <p>En plaisance<br>Au mouillage</p>
+    </div>
+    <div class="footer-copyright">
+        &copy; 2026 ÉPICERIE EN MER
+    </div>
+</footer>
+
+    <a href="tel:0659821771" class="btn-appel">📞 Demande d'info</a>
+    <a href="#" id="scrollTop" class="scroll-top">↑</a>
+
+
+    <script>// --- VARIABLES GLOBALES ---
+let panier = {};
+let total = 0;
+
+// --- INITIALISATION AU CHARGEMENT ---
+window.onload = function() {
+    chargerPanierSauvegarde(); // On récupère l'ancien panier s'il existe
+    
+    // Initialisation des bulles
+    setInterval(creerBulle, 500); 
+    for (let i = 0; i < 10; i++) {
+        creerBulle();
+    }
+};
+
+// --- GESTION DU PANIER ---
+
+// Charger les données depuis le navigateur
+function chargerPanierSauvegarde() {
+    const sauvegarde = localStorage.getItem('monPanierEpicerie');
+    if (sauvegarde) {
+        panier = JSON.parse(sauvegarde);
+        // On met à jour l'affichage des chiffres sur les planches
+        for (let produit in panier) {
+            let el = document.getElementById(`qte-${produit}`);
+            if (el) {
+                el.innerText = panier[produit].qte;
+            }
+        }
+        calculerTotal();
+    }
+}
+
+// Ajouter ou retirer un produit
+function changeQuantite(nom, prix, delta) {
+    if (!panier[nom]) panier[nom] = { qte: 0, prix: prix };
+    
+    panier[nom].qte += delta;
+    
+    // Sécurité : pas de quantité négative
+    if (panier[nom].qte < 0) panier[nom].qte = 0;
+
+    // Mise à jour visuelle du chiffre sur la planche
+    let el = document.getElementById(`qte-${nom}`);
+    if (el) {
+        el.innerText = panier[nom].qte;
+        // Petit effet de flash visuel
+        el.classList.remove('flash'); 
+        void el.offsetWidth; 
+        el.classList.add('flash');
+    }
+    
+    // Sauvegarde immédiate
+    localStorage.setItem('monPanierEpicerie', JSON.stringify(panier));
+    calculerTotal();
+}
+
+// Calculer le prix total et afficher/cacher la barre de commande
+function calculerTotal() {
+    total = 0;
+    for (let item in panier) {
+        total += panier[item].qte * panier[item].prix;
+    }
+    
+    // Mise à jour de l'affichage du total
+    const totalPrixEl = document.getElementById('total-prix');
+    if (totalPrixEl) totalPrixEl.innerText = total.toFixed(2);
+    
+    const panierDiv = document.getElementById('panier-flottant');
+    const btnAppel = document.querySelector('.btn-appel');
+    const btnTop = document.getElementById('scrollTop');
+
+    if (total > 0) {
+        panierDiv.style.display = 'flex';
+        // Décale les boutons vers le haut pour ne pas gêner
+        if(btnAppel) btnAppel.classList.add('boutons-decales');
+        if(btnTop) btnTop.classList.add('boutons-decales');
+    } else {
+        panierDiv.style.display = 'none';
+        // Remet les boutons à leur place
+        if(btnAppel) btnAppel.classList.remove('boutons-decales');
+        if(btnTop) btnTop.classList.remove('boutons-decales');
+    }
+}
+
+// Vider tout le panier d'un coup
+function viderPanier() {
+    if (confirm("Voulez-vous vraiment vider tout votre panier ?")) {
+        panier = {};
+        
+        // Remise à zéro visuelle de tous les compteurs
+        const compteurs = document.querySelectorAll('[id^="qte-"]');
+        compteurs.forEach(span => {
+            span.innerText = "0";
+        });
+
+        localStorage.removeItem('monPanierEpicerie');
+        calculerTotal();
+    }
+}
+
+// --- ENVOI DE LA COMMANDE ---
+function envoyerWhatsApp() {
+    let m = "Bonjour l'Épicerie en Mer ! ⚓ Voici ma commande :%0A";
+    let empty = true;
+    
+    for (let i in panier) {
+        if (panier[i].qte > 0) {
+            let nomPropre = i.replace(/_/g, ' '); // Rend le nom plus lisible
+            m += `- ${panier[i].qte}x ${nomPropre}%0A`;
+            empty = false;
+        }
+    }
+    
+    if (empty) {
+        alert("Votre panier est vide !");
+        return;
+    }
+    
+    m += `%0ATotal: ${total.toFixed(2)}€%0APosition Bateau : [À compléter] ⛵`;
+    
+    // Ouvre WhatsApp dans un nouvel onglet
+    window.open(`https://wa.me/33659821771?text=${m}`, '_blank');
+}
+
+// --- NAVIGATION ET UI ---
+
+// Bouton retour en haut
+const btnRemonter = document.getElementById("scrollTop");
+window.onscroll = function() {
+    if (window.scrollY > 300) {
+        btnRemonter.classList.add("active");
+    } else {
+        btnRemonter.classList.remove("active");
+    }
+};
+
+// Filtre de recherche
+function filterProducts() {
+    let input = document.getElementById('searchInput').value.toLowerCase();
+    let sections = document.getElementsByClassName('planche-container');
+    
+    for (let i = 0; i < sections.length; i++) {
+        let items = sections[i].getElementsByClassName('ligne-produit');
+        let sectionHasMatch = false;
+        
+        for (let j = 0; j < items.length; j++) {
+            let productName = items[j].getElementsByTagName('span')[0].innerText.toLowerCase();
+            if (productName.includes(input)) {
+                items[j].style.display = "flex";
+                sectionHasMatch = true;
+            } else {
+                items[j].style.display = "none";
+            }
+        }
+        sections[i].style.display = sectionHasMatch ? "block" : "none";
+    }
+}
+
+// Effet de menu actif au scroll (ScrollSpy)
+const observerOptions = {
+    root: null,
+    rootMargin: '-25% 0px -70% 0px', 
+    threshold: 0
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('id');
+            document.querySelectorAll('.btn-bois').forEach(btn => {
+                btn.classList.remove('btn-active');
+            });
+            const activeBtn = document.querySelector(`.btn-bois[href="#${id}"]`);
+            if (activeBtn) activeBtn.classList.add('btn-active');
+        }
+    });
+}, observerOptions);
+
+document.querySelectorAll('.planche-container').forEach(section => {
+    observer.observe(section);
+});
+
+// --- DÉCORATION : GÉNÉRATION DES BULLES ---
+function creerBulle() {
+    const bulle = document.createElement('div');
+    bulle.classList.add('bulle');
+    document.body.appendChild(bulle);
+
+    const taille = Math.random() * 20 + 5; 
+    bulle.style.width = `${taille}px`;
+    bulle.style.height = `${taille}px`;
+    bulle.style.left = `${Math.random() * 100}vw`; 
+    bulle.style.animationDuration = `${Math.random() * 10 + 5}s`; 
+    bulle.style.animationDelay = `${Math.random() * 5}s`; 
+
+    bulle.addEventListener('animationend', () => {
+        bulle.remove();
+    });
+}
+
+    </script>
+
+</body>
+</html>
