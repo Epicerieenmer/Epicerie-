@@ -12,6 +12,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Patrick+Hand&display=swap" rel="stylesheet">
     
     <style>
+        
+        /* ==========================================================
+   INTERRUPTEUR : MODE CATALOGUE vs MODE COMMANDE
+   
+   Pour CACHER le panier et les boutons +/-, 
+   ENLÈVE les deux barres "//" devant .panier-actif
+   
+   Pour ACTIVE le panier et les boutons +/-,
+   AJOUTE lez deux barres "//" devant .panier-actif
+   ========================================================== */
+
+.panier-actif { display: none !important; } ex
+
+/* ========================================================== */
+
         /* --- CONFIGURATION GÉNÉRALE --- */
         html { scroll-behavior: smooth; }
       
@@ -314,39 +329,57 @@ div[style*="max-width: 800px"] {
 
         .scroll-top.active { opacity: 1; visibility: visible; }
       
-/* --- FOOTER --- */
+
+
 footer {
     width: 100%;
     max-width: 800px;
-    margin: 60px auto 100px auto; /* Ajoute de l'espace en bas pour pas que le panier cache tout */
+    margin: 60px auto 100px auto;
     padding: 30px 10px;
     border-top: 3px dotted #0c4a6e;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 20px; 
+    flex-direction: column; /* Par défaut : l'un sous l'autre pour mobile */
+    align-items: center;
+    gap: 30px; 
     color: #0c4a6e;
     text-align: center;
-    position: relative;
-    z-index: 10;
+}
+
+/* Sur tablette et ordinateur, on les remet côte à côte */
+@media (min-width: 600px) {
+    footer {
+        flex-direction: row; /* Côte à côte */
+        justify-content: space-around;
+        align-items: flex-start;
+    }
 }
 
 .footer-section { 
-    min-width: 200px; 
-    flex: 1;
+    width: 100%;
+    max-width: 250px;
 }
 
 .footer-section h3 { 
     font-family: 'Fredoka One', cursive; 
-    margin-bottom: 10px; 
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.footer-section p {
+    font-size: 1.1rem;
+    line-height: 1.4;
+    margin: 5px 0;
 }
 
 .footer-copyright {
     width: 100%;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     opacity: 0.6;
     margin-top: 20px;
+    border-top: 1px solid rgba(12, 74, 110, 0.1);
+    padding-top: 15px;
 }
+
 
 /* --- BOUTONS FLOTTANTS --- */
 .btn-appel, .scroll-top {
@@ -436,12 +469,13 @@ footer {
 }
 
 .logo-site {
-    width: 60%;          /* S'adapte sur téléphone */
-    max-width: 350px;    /* Taille max sur tablette/ordi */
+    width: 80%;           /* Large sur mobile */
+    max-width: 300px;     /* Taille idéale sur tablette */
     height: auto;
     filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
     animation: flotterLogo 3s infinite ease-in-out;
 }
+
 
 
 @keyframes flotterLogo {
@@ -496,43 +530,42 @@ h1 {
     </div>
     
 
-
     <div id="boissons" class="planche-container">
         <h2 class="titre-section">Boissons</h2>
         <div class="ligne-produit">
             <span>Jus d'Orange</span>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="prix">3.50€</span>
-                <button onclick="changeQuantite('Jus_d_Orange', 3.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span id="qte-Jus_d_Orange">0</span>
-                <button onclick="changeQuantite('Jus_d_Orange', 3.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+                <button class="panier-actif" onclick="changeQuantite('Jus_d_Orange', 3.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span class="panier-actif" id="qte-Jus_d_Orange">0</span>
+                <button class="panier-actif" onclick="changeQuantite('Jus_d_Orange', 3.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
             </div>
         </div>
         <div class="ligne-produit">
             <span>Café Pirate</span>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="prix">2.00€</span>
-                <button onclick="changeQuantite('Cafe_Pirate', 2.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span id="qte-Cafe_Pirate">0</span>
-                <button onclick="changeQuantite('Cafe_Pirate', 2.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+                <button class="panier-actif" onclick="changeQuantite('Cafe_Pirate', 2.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span class="panier-actif" id="qte-Cafe_Pirate">0</span>
+                <button class="panier-actif" onclick="changeQuantite('Cafe_Pirate', 2.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
             </div>
         </div>
         <div class="ligne-produit">
             <span>Eau Gazeuse</span>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="prix">2.50€</span>
-                <button onclick="changeQuantite('Eau_Gazeuse', 2.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span id="qte-Eau_Gazeuse">0</span>
-                <button onclick="changeQuantite('Eau_Gazeuse', 2.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+                <button class="panier-actif" onclick="changeQuantite('Eau_Gazeuse', 2.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span class="panier-actif" id="qte-Eau_Gazeuse">0</span>
+                <button class="panier-actif" onclick="changeQuantite('Eau_Gazeuse', 2.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
             </div>
         </div>
         <div class="ligne-produit">
             <span>Eau Plate</span>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="prix">2.50€</span>
-                <button onclick="changeQuantite('Eau_Plate', 2.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span id="qte-Eau_Plate">0</span>
-                <button onclick="changeQuantite('Eau_Plate', 2.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+                <button class="panier-actif" onclick="changeQuantite('Eau_Plate', 2.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span class="panier-actif" id="qte-Eau_Plate">0</span>
+                <button class="panier-actif" onclick="changeQuantite('Eau_Plate', 2.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
             </div>
         </div>
     </div>
@@ -543,41 +576,41 @@ h1 {
             <span>Sandwich Mixte</span>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="prix">6.00€</span>
-                <button onclick="changeQuantite('Sandwich_Mixte', 6.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span id="qte-Sandwich_Mixte">0</span>
-                <button onclick="changeQuantite('Sandwich_Mixte', 6.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+                <button class="panier-actif" onclick="changeQuantite('Sandwich_Mixte', 6.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span class="panier-actif" id="qte-Sandwich_Mixte">0</span>
+                <button class="panier-actif" onclick="changeQuantite('Sandwich_Mixte', 6.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
             </div>
         </div>
         <div class="ligne-produit">
             <span>Paquet de Chips</span>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="prix">2.50€</span>
-                <button onclick="changeQuantite('Chips', 2.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span id="qte-Chips">0</span>
-                <button onclick="changeQuantite('Chips', 2.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+                <button class="panier-actif" onclick="changeQuantite('Chips', 2.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span class="panier-actif" id="qte-Chips">0</span>
+                <button class="panier-actif" onclick="changeQuantite('Chips', 2.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
             </div>
         </div>
     </div>
 
     <div id="glace" class="planche-container">
-<h2 class="titre-section" style="position: relative; display: inline-block; width: 100%;">
-    Glace<span class="badge-frais" style="position: absolute; font-size: 1rem; top: 0; margin-left: 10px;">Frais ! ❄️</span></h2>
+        <h2 class="titre-section" style="position: relative; display: inline-block; width: 100%;">
+            Glace<span class="badge-frais" style="position: absolute; font-size: 1rem; top: 0; margin-left: 10px;">Frais ! ❄️</span></h2>
         <div class="ligne-produit">
             <span>Cône Vanille</span>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="prix">3.50€</span>
-                <button onclick="changeQuantite('Cone_Vanille', 3.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span id="qte-Cone_Vanille">0</span>
-                <button onclick="changeQuantite('Cone_Vanille', 3.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+                <button class="panier-actif" onclick="changeQuantite('Cone_Vanille', 3.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span class="panier-actif" id="qte-Cone_Vanille">0</span>
+                <button class="panier-actif" onclick="changeQuantite('Cone_Vanille', 3.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
             </div>
         </div>
         <div class="ligne-produit">
             <span>Magnum</span>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="prix">4.00€</span>
-                <button onclick="changeQuantite('Magnum', 4.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span id="qte-Magnum">0</span>
-                <button onclick="changeQuantite('Magnum', 4.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+                <button class="panier-actif" onclick="changeQuantite('Magnum', 4.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span class="panier-actif" id="qte-Magnum">0</span>
+                <button class="panier-actif" onclick="changeQuantite('Magnum', 4.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
             </div>
         </div>
     </div>
@@ -588,18 +621,18 @@ h1 {
             <span>T-shirt Marin</span>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="prix">15.00€</span>
-                <button onclick="changeQuantite('Tshirt_Marin', 15.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span id="qte-Tshirt_Marin">0</span>
-                <button onclick="changeQuantite('Tshirt_Marin', 15.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+                <button class="panier-actif" onclick="changeQuantite('Tshirt_Marin', 15.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span class="panier-actif" id="qte-Tshirt_Marin">0</span>
+                <button class="panier-actif" onclick="changeQuantite('Tshirt_Marin', 15.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
             </div>
         </div>
         <div class="ligne-produit">
             <span>Casquette</span>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="prix">10.00€</span>
-                <button onclick="changeQuantite('Casquette', 10.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span id="qte-Casquette">0</span>
-                <button onclick="changeQuantite('Casquette', 10.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+                <button class="panier-actif" onclick="changeQuantite('Casquette', 10.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span class="panier-actif" id="qte-Casquette">0</span>
+                <button class="panier-actif" onclick="changeQuantite('Casquette', 10.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
             </div>
         </div>
     </div>
@@ -610,18 +643,18 @@ h1 {
             <span>Crème Solaire</span>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="prix">8.50€</span>
-                <button onclick="changeQuantite('Creme_Solaire', 8.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span id="qte-Creme_Solaire">0</span>
-                <button onclick="changeQuantite('Creme_Solaire', 8.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+                <button class="panier-actif" onclick="changeQuantite('Creme_Solaire', 8.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span class="panier-actif" id="qte-Creme_Solaire">0</span>
+                <button class="panier-actif" onclick="changeQuantite('Creme_Solaire', 8.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
             </div>
         </div>
         <div class="ligne-produit">
             <span>Lunettes</span>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="prix">12.00€</span>
-                <button onclick="changeQuantite('Lunettes', 12.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span id="qte-Lunettes">0</span>
-                <button onclick="changeQuantite('Lunettes', 12.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+                <button class="panier-actif" onclick="changeQuantite('Lunettes', 12.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span class="panier-actif" id="qte-Lunettes">0</span>
+                <button class="panier-actif" onclick="changeQuantite('Lunettes', 12.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
             </div>
         </div>
     </div>
@@ -632,33 +665,31 @@ h1 {
             <span>Appâts frais</span>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="prix">5.00€</span>
-                <button onclick="changeQuantite('Appats_frais', 5.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span id="qte-Appats_frais">0</span>
-                <button onclick="changeQuantite('Appats_frais', 5.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+                <button class="panier-actif" onclick="changeQuantite('Appats_frais', 5.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span class="panier-actif" id="qte-Appats_frais">0</span>
+                <button class="panier-actif" onclick="changeQuantite('Appats_frais', 5.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
             </div>
         </div>
         <div class="ligne-produit">
             <span>Hameçons</span>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="prix">2.50€</span>
-                <button onclick="changeQuantite('Hamecons', 2.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span id="qte-Hamecons">0</span>
-                <button onclick="changeQuantite('Hamecons', 2.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
+                <button class="panier-actif" onclick="changeQuantite('Hamecons', 2.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
+                <span class="panier-actif" id="qte-Hamecons">0</span>
+                <button class="panier-actif" onclick="changeQuantite('Hamecons', 2.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
             </div>
         </div>
     </div>
 
-     
-<div id="panier-flottant">
+<div id="panier-flottant" class="panier-actif">   
     <div style="font-size: 1.2rem; display:flex; align-items:center; gap:10px; flex:1;">
         <span>Retrait sur place :</span>
         <span style="white-space:nowrap; font-family:'Fredoka One'; background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:8px;">
             Total: <span id="total-prix">0.00</span>€
         </span>
-        <button onclick="viderPanier()" title="Vider le panier" style="background:none; border:none; font-size:1.2rem; cursor:pointer; padding:5px;">🗑️</button>
+        <button class="panier-actif" onclick="viderPanier()" title="Vider le panier" style="background:none; border:none; font-size:1.2rem; cursor:pointer; padding:5px;">🗑️</button>
     </div>
-<button onclick="envoyerWhatsApp()" class="btn-commander">Commander ⚓</button>
-
+    <button onclick="envoyerWhatsApp()" class="btn-commander">Commander ⚓</button>
 </div>
 
      
