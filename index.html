@@ -786,7 +786,7 @@ h1 {
         </span>
         <button class="panier-actif" onclick="viderPanier()" title="Vider le panier" style="background:none; border:none; font-size:1.2rem; cursor:pointer; padding:5px;">🗑️</button>
     </div>
-    <button onclick="envoyerWhatsApp()" class="btn-commander">Commander ⚓</button>
+   <button onclick="envoyerWhatsApp(); cronitor('track', 'Validation_Commande')" class="btn-commander">Commander ⚓</button>
 </div>
 
      
@@ -799,7 +799,18 @@ h1 {
         <h3>📞 CONTACT</h3>
         <p>Tél : 06 59 82 17 71</p>
         <p>VHF : Canal 72</p>
+        
+        <div style="margin-top: 15px; display: flex; justify-content: center; gap: 15px;">
+            <a href="URL_FACEBOOK" target="_blank" onclick="cronitor('track', 'Clic_Facebook')" style="display: inline-block;">
+                <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" width="25" alt="Facebook">
+            </a>
+
+            <a href="URL_INSTAGRAM" target="_blank" onclick="cronitor('track', 'Clic_Instagram')" style="display: inline-block;">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="25" alt="Instagram">
+            </a>
+        </div>
     </div>
+
     <div class="footer-section">
         <h3>📍 ACCÈS</h3>
         <p>En plaisance<br>Au mouillage</p>
@@ -809,7 +820,8 @@ h1 {
     </div>
 </footer>
 
-    <a href="tel:0659821771" class="btn-appel">📞 Demande d'info</a>
+
+<a href="tel:0659821771" class="btn-appel" onclick="cronitor('track', 'Appel_Direct')">📞 Demande d'info</a>
     <a href="#" id="scrollTop" class="scroll-top">↑</a>
 
 
