@@ -10,6 +10,13 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
+<!-- Cronitor RUM -->
+<script async src="https://rum.cronitor.io/script.js"></script>
+<script>
+    window.cronitor = window.cronitor || function() { (window.cronitor.q = window.cronitor.q || []).push(arguments); };
+    cronitor('config', { clientKey: 'b2a0267b201304d2cffe170ce507fc3c' });
+</script>
+
 
     <link rel="icon" href="https://fav.farm/⚓">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Patrick+Hand&display=swap" rel="stylesheet">
@@ -407,6 +414,7 @@ footer {
     gap: 15px; 
     color: #0c4a6e;
     text-align: center;
+    z-index: 100;
 }
 
 
