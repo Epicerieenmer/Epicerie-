@@ -23,18 +23,12 @@
     
     <style>
         
-        /* ==========================================================
-   INTERRUPTEUR : MODE CATALOGUE vs MODE COMMANDE
-   
-   Pour CACHER le panier et les boutons +/- ou la banderole, 
-   ENLÈVE les deux barres "//" devant .panier-actif
-   
-   Pour ACTIVE le panier et les boutons +/- ou la banderole ,
-   AJOUTE lez deux barres "//" devant .panier-actif
-   ========================================================== */
+        /* Pour CACHER : Enlève les // devant les deux lignes ci-dessous */
+/* Pour AFFICHER : Ajoute les // devant les deux lignes ci-dessous */
 
-.panier-actif { display: none !important; } 
-#maBanderole { display: none !important; }
+ .panier-actif { display: none !important; } 
+ .banderole-promo { display: none !important; }
+
 
 /* ========================================================== */
 
@@ -295,6 +289,8 @@ div[style*="max-width: 800px"] {
             box-sizing: border-box;
             box-shadow: 0 8px 15px rgba(0,0,0,0.2);
             scroll-margin-top: 160px;
+            overflow: visible ;
+            position: relative;
         }
 
         .titre-section {
@@ -352,18 +348,26 @@ div[style*="max-width: 800px"] {
     transform: translateY(0);
 }
 
+.tel-icon {
+    text-shadow: 0 0 2px rgba(255, 255, 255, 1), 0 0 2px rgba(255, 255, 255, 0.8);
+    filter: drop-shadow(0 0 2px white); /* Renforce l'éclat */
+    margin-right: 5px;
+}
+
 .badge-frais {
-    display: inline-block;
+    position: absolute;
+    top: -15px;      /* Valeur négative pour monter au-dessus du bord haut */
+    right: -10px;    /* Valeur négative pour sortir par la droite */
     background: #b3e5fc;
     color: #01579b;
-    font-size: 1.5rem;
-    padding: 2px 6px;
-    border-radius: 5px;
-    border: 1px solid white;
-    margin-left: 8px;
+    font-size: 1rem;
+    padding: 5px 12px;
+    border-radius: 50px; /* Plus arrondi pour un look moderne */
+    border: 2px solid white;
     font-family: 'Fredoka One', cursive;
-    /* On appelle la nouvelle animation combinée */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     animation: frais-mouvement 2s infinite ease-in-out;
+    z-index: 20;
 }
 
 @keyframes frais-mouvement {
@@ -398,12 +402,25 @@ div[style*="max-width: 800px"] {
             transform: translateY(0);
         }
       
+/* --- BOUTONS FLOTTANTS --- */
+.btn-appel, .scroll-top {
+    position: fixed;
+    z-index: 9999;
+    /* État caché par défaut */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px); /* Légèrement plus bas au départ */
+    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s, bottom 0.3s ease;
+}
 
+.boutons-decales {
+    bottom: 85px !important; 
+}
 
 footer {
     width: 100%;
     max-width: 800px;
-    margin: 60px auto 100px auto;
+    margin: 20px auto 100px auto;
     padding: 30px 10px;
     border-top: 3px dotted #0c4a6e;
     display: flex;
@@ -450,29 +467,17 @@ footer {
     font-size: 0.8rem;
     opacity: 0.6;
     margin-top: 20px;
-   border-top: 1px ; 
     padding-top: 15px;
     text-align: center;
 }
 
-
-
-/* --- BOUTONS FLOTTANTS --- */
-.btn-appel, .scroll-top {
-    position: fixed;
-    z-index: 9999;
-    /* État caché par défaut */
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(20px); /* Légèrement plus bas au départ */
-    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s, bottom 0.3s ease;
+.footer-section img {
+    transition: transform 0.2s;
+}
+.footer-section img:active {
+    transform: scale(0.8);
 }
 
-.boutons-decales {
-    bottom: 85px !important; 
-}
-        
-        
        /* --- Bulles décoratives --- */
        .bulle {
          position: fixed; /* Fixé par rapport à l'écran */
@@ -575,6 +580,123 @@ h1 {
     text-align: center;
 }
 
+.container-map-transparent {
+    /* La largeur s'adapte : 92% sur mobile, et s'élargit sur tablette */
+    width: 92%;            
+    max-width: 700px;      /* Augmenté à 700px pour que sur tablette il soit confortable */
+    
+    margin: 20px auto;     
+    padding: 20px;         
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.2); 
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 40px;   
+    text-align: center;
+    z-index: 10;
+    position: relative;
+}
+
+/* Texte qui s'adapte aussi légèrement */
+.container-map-transparent p {
+    font-size: 1rem;       /* Un peu plus grand pour la lisibilité */
+    line-height: 1.4;
+    margin: 12px 0;
+}
+
+.container-map-transparent h2 {
+    font-size: 1.5rem;     
+    margin-bottom: 5px;
+}
+
+
+.btn-bois-map {
+    background-image: url('planche.bois.jpg');
+    background-size: cover;
+    background-position: center 30% ;
+    border: 2px solid #0c4a6e;
+    border-radius: 30px;
+    color: #0c4a6e !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 30px;
+    text-decoration: none;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    box-shadow: 0 4px #0c4a6e, 0 8px 15px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+    margin: 15px 0;
+}
+
+.btn-bois-map:active {
+    transform: translateY(4px);
+    box-shadow: 0 0px #0c4a6e, 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.icon-boussole {
+    font-size: 1.5rem;
+    animation: rotation-boussole 3s infinite linear;
+}
+
+@keyframes rotation-boussole {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-15deg); }
+    75% { transform: rotate(15deg); }
+    100% { transform: rotate(0deg); }
+}
+
+.mise-a-jour {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    font-style: italic;
+}
+
+.btn-localisation-header {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 25px;
+    
+    /* Fond transparent givré */
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    
+    /* Bordure et Texte */
+    border: 2px solid #0c4a6e;
+    border-radius: 50px;
+    color: #0c4a6e !important;
+    
+    /* Typographie */
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    text-decoration: none;
+    
+    /* Animation et ombre */
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.btn-localisation-header:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Petit effet de pulsation sur l'icône pour attirer l'oeil */
+.pulse-icon {
+    display: inline-block;
+    animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
  
         
     </style>
@@ -587,8 +709,7 @@ h1 {
         <div class="vague-calque v4"></div>
     </div>
     
-
-<div id="maBanderole" class="banderole-container">
+<div id="maBanderole" class="banderole-promo">
     <div class="banderole-ruban">
         <div class="defilement">
             <span>🔥 PROMO : -10% sur le matériel de pêche ce week-end ! ⚓</span>
@@ -603,12 +724,17 @@ h1 {
     <img src="logo.png" alt="Logo Épicerie en Mer" class="logo-site">
 </div>
 
-   <div class="header-titre">
+<div class="header-titre">
     <h1>ÉPICERIE EN MER</h1>
+        <p class="slogan">Le bateau qui a tout ce qu'il vous faut !</p>
     <p class="localisation">- De l'île aux oiseaux au Cap Ferret -</p>
-    <p class="slogan">Le bateau qui a tout ce qu'il vous faut !</p>
+   <div style="margin: 20px 0;">
+    <a href="#localisation" class="btn-localisation-header">
+        <span class="pulse-icon">📍</span> OÙ EST LE BATEAU ?
+    </a>
 </div>
- 
+
+</div>
     
         <div style="width: 100%; max-width: 800px; margin-bottom: 15px; padding: 0 10px; box-sizing: border-box;">
 
@@ -689,9 +815,10 @@ h1 {
         </div>
     </div>
 
-    <div id="glace" class="planche-container">
-        <h2 class="titre-section" style="position: relative; display: inline-block; width: 100%;">
-            Glace<span class="badge-frais" style="position: absolute; font-size: 1rem; top: 0; margin-left: 10px;">Frais ! ❄️</span></h2>
+    <div id="glace" class="planche-container" style="position: relative;">
+        <span class="badge-frais">Ultra frais ! ❄️</span>
+        <h2 class="titre-section">Glace</h2>
+        
         <div class="ligne-produit">
             <span>Cône Vanille</span>
             <div style="display: flex; align-items: center; gap: 10px;">
@@ -701,6 +828,7 @@ h1 {
                 <button class="panier-actif" onclick="changeQuantite('Cone_Vanille', 3.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
             </div>
         </div>
+
         <div class="ligne-produit">
             <span>Magnum</span>
             <div style="display: flex; align-items: center; gap: 10px;">
@@ -711,6 +839,7 @@ h1 {
             </div>
         </div>
     </div>
+
 
     <div id="vetement" class="planche-container">
         <h2 class="titre-section">Vêtement</h2>
@@ -759,7 +888,7 @@ h1 {
     <div id="peche" class="planche-container">
         <h2 class="titre-section">Pêche</h2>
         <div class="ligne-produit">
-            <span>Appâts frais</span>
+            <span>Appats frais</span>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="prix">5.00€</span>
                 <button class="panier-actif" onclick="changeQuantite('Appats_frais', 5.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
@@ -789,6 +918,18 @@ h1 {
    <button onclick="envoyerWhatsApp(); cronitor('track', 'Validation_Commande')" class="btn-commander">Commander ⚓</button>
 </div>
 
+<div class="container-map-transparent" id="localisation">
+    <div class="carte-info-bulles">
+        <h2 class="titre-section" style="margin-top: 0;">📍 Position du Capitaine</h2>
+        <p>Cliquez sur la boussole pour nous situer en direct sur Google Maps et venir nous aborder !</p>
+        <a href="https://linktr.ee/epicerie.en.mer" target="_blank" class="btn-bois-map">
+            <span class="icon-boussole">🧭</span> VOIR SUR MAPS
+        </a>
+        
+        <p class="mise-a-jour">Lien actif en temps réel ⚓</p>
+    </div>
+</div>
+     
      
 <footer>
     <div class="footer-section">
@@ -820,9 +961,9 @@ h1 {
     </div>
 </footer>
 
+<a href="tel:0659821771" class="btn-appel" onclick="cronitor('track', 'Appel_Direct')"><span class="tel-icon">📞</span> Demande d'info</a>
 
-<a href="tel:0659821771" class="btn-appel" onclick="cronitor('track', 'Appel_Direct')">📞 Demande d'info</a>
-    <a href="#" id="scrollTop" class="scroll-top">↑</a>
+<a href="#" id="scrollTop" class="scroll-top">↑</a>
 
 
     <script>// --- VARIABLES GLOBALES ---
@@ -973,8 +1114,6 @@ window.addEventListener('scroll', function() {
     }
 });
 
-
-
 // Filtre de recherche
 function filterProducts() {
     let input = document.getElementById('searchInput').value.toLowerCase();
@@ -1038,6 +1177,11 @@ function creerBulle() {
         bulle.remove();
     });
 }
+
+html {
+    scroll-behavior: smooth;
+}
+
 
     </script>
 
