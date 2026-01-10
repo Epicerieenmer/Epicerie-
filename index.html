@@ -3,94 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>Épicerie en Mer</title>
-    <meta property="og:title" content="Épicerie en Mer ⚓">
-<meta property="og:description" content="Commandez vos boissons, snacks et matériel de pêche depuis votre bateau !">
-<meta property="og:image" content="logo.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-<!-- Cronitor RUM -->
-<script async src="https://rum.cronitor.io/script.js"></script>
-<script>
-    window.cronitor = window.cronitor || function() { (window.cronitor.q = window.cronitor.q || []).push(arguments); };
-    cronitor('config', { clientKey: 'b2a0267b201304d2cffe170ce507fc3c' });
-</script>
-
-
-    <link rel="icon" href="https://fav.farm/⚓">
+    <title>Épicerie en Mer ⚓</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Patrick+Hand&display=swap" rel="stylesheet">
     
     <style>
-        
-        /* Pour CACHER : Enlève les // devant les deux lignes ci-dessous */
-/* Pour AFFICHER : Ajoute les // devant les deux lignes ci-dessous */
-
- .panier-actif { display: none !important; } 
- .banderole-promo { display: none !important; }
-
-
-/* ========================================================== */
-
-        /* --- CONFIGURATION GÉNÉRALE --- */
-        html { scroll-behavior: smooth; }
-        
-      
-.banderole-promo {
-    width: 100%;
-    background-color: #ffd600; /* Jaune vif */
-    color: #0c4a6e;
-    overflow: hidden;
-    white-space: nowrap;
-    padding: 10px 0;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    position: relative;
-    z-index: 2000; /* Devant tout le reste */
-    border-radius: 50px;
-}
-
-.defilement {
-    display: inline-block;
-    padding-left: 100%;
-    animation: defilement-promo 20s linear infinite;
-}
-
-.defilement span {
-    padding-right: 50px; /* Espace entre les messages */
-}
-
-@keyframes defilement-promo {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
-}
-
-.header-titre {
-    text-align: center;
-    width: 100%;
-    margin-bottom: 20px;
-    position: relative;
-    z-index: 10;
-}
-
-.localisation {
-    font-size: 1.2rem;
-    color: #d84315; /* Un orange/rouge pour rappeler les balises ou le sable */
-    font-weight: bold;
-    margin: -5px 0 10px 0; /* On le colle un peu au titre */
-    text-shadow: 1px 1px 2px white;
-    font-family: 'Patrick Hand', cursive;
-}
-
-.slogan {
-    font-size: 1.4rem;
-    color: #0c4a6e;
-    margin-top: 0;
-}
-
-
-      
+        /* --- CONFIGURATION GÉNÉRALE (Identique Menu) --- */
         body {
             margin: 0;
             padding: 20px;
@@ -100,12 +17,12 @@
             align-items: center;
             min-height: 100vh;
             overflow-x: hidden;
-            background-color: #e0f7fa; /* Fond ciel */
+            background-color: #e0f7fa;
             position: relative;
             z-index: 0;
-              }
-              
-        /* --- SYSTÈME DE VAGUES RÉPARTIES (BAS ET MILIEU) --- */
+        }
+
+        /* --- SYSTÈME DE VAGUES (Copié du Menu) --- */
         .ocean {
             position: fixed;
             width: 100%;
@@ -125,1087 +42,226 @@
             border-radius: 43%;
         }
 
-        /* Vague 1 : La plus bas (Rose) - S'arrête vers le haut */
-        .v1 {
-            background: linear-gradient(135deg, #f8bbd0, #f48fb1);
-            top: -130vw; /* Elle descend pour libérer le haut de l'écran */
-            animation: derive 20s infinite linear;
-            opacity: 0.45;
-        }
-
-        /* Vague 2 : Milieu (Vert) */
-        .v2 {
-            background: linear-gradient(135deg, #b2dfdb, #80cbc4);
-            top: -160vw; 
-            animation: derive 30s infinite reverse linear;
-        }
-
-        /* Vague 3 : Milieu haut (Bleu) */
-        .v3 {
-            background: linear-gradient(135deg, #b3e5fc, #81d4fa);
-            top: -200vw; 
-            animation: derive 25s infinite linear;
-        }
-
-        /* Vague 4 : Tout en haut (Turquoise) */
-        .v4 {
-            background: linear-gradient(135deg, #b2ebf2, #4dd0e1);
-            top: -300vw; 
-            animation: derive 35s infinite reverse linear;
-        }
+        .v1 { background: linear-gradient(135deg, #f8bbd0, #f48fb1); top: -130vw; animation: derive 20s infinite linear; opacity: 0.45; }
+        .v2 { background: linear-gradient(135deg, #b2dfdb, #80cbc4); top: -160vw; animation: derive 30s infinite reverse linear; }
+        .v3 { background: linear-gradient(135deg, #b3e5fc, #81d4fa); top: -200vw; animation: derive 25s infinite linear; }
+        .v4 { background: linear-gradient(135deg, #b2ebf2, #4dd0e1); top: -300vw; animation: derive 35s infinite reverse linear; }
 
         @keyframes derive {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
 
-        /* --- STYLE DU CONTENU --- */
+        /* --- BULLES (Copié du Menu) --- */
+        .bulle {
+            position: fixed;
+            bottom: -20px;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.8), 0 0 8px rgba(179, 229, 252, 0.7);
+            animation: flotter 10s infinite ease-out;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+        }
+
+        @keyframes flotter {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+        }
+
+        /* --- CONTENU --- */
+        .logo-container {
+            margin-top: 30px;
+            z-index: 10;
+        }
+
+        .logo-site {
+            width: 200px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+            animation: flotterLogo 3s infinite ease-in-out;
+        }
+
+        @keyframes flotterLogo {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
         h1 {
             font-family: 'Fredoka One', cursive;
             color: #0c4a6e;
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             text-shadow: 2px 2px 4px white;
-            margin: 10px 0 5px 0;
             text-align: center;
+            z-index: 10;
         }
-                .nav-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
+
+        /* --- BOUTONS BOIS (Style Menu) --- */
+        .btn-link {
             width: 100%;
-            max-width: 800px;
-            
-            /* --- CONFIGURATION STICKY --- */
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            padding: 20px 10px;
-            margin-bottom: 30px;
-            border-radius: 20px 20px 20px 20px;
-
-            /* AU DÉPART : Totalement invisible */
-            background: transparent;
-            transition: background 0.3s ease;
-
-            /* AU SCROLL : On active l'effet */
-            animation: menu-effet-vagues linear both;
-            animation-timeline: scroll();
-            animation-range: 0px 250px;
-        }
-
-        @keyframes menu-effet-vagues {
-            to {
-                /* On utilise la même couleur de fond que le ciel 
-                   pour bloquer la vue des planches de bois */
-                   background-color: rgba(224, 247, 250, 0.7); /* 0.7 permet de voir les vagues mais cache les planches */
-backdrop-filter: blur(5px); /* Floute les planches qui passent dessous pour qu'on ne voit que les vagues */
-                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-                border-bottom: 2px solid rgba(12, 74, 110, 0.1);
-            }
-        }
-           
-           /* --- TITRE ET PHRASE --- */
-h1, p {
-    position: relative; /* Indispensable pour que le z-index soit pris en compte */
-    z-index: 10;        /* Même niveau que les planches de bois, donc devant les bulles */
-}
-
-/* --- BARRE DE RECHERCHE --- */
-/* On cible le conteneur de la barre de recherche */
-div[style*="max-width: 800px"] { 
-    position: relative;
-    z-index: 10;
-}
-
-/* --- VAGUES (Optionnel mais conseillé) --- */
-/* On s'assure que les vagues de fond restent bien tout derrière */
-.ocean {
-    z-index: -1;
-}
-
-.bulle {
-    position: fixed;
-    bottom: -50px; /* On commence bien en dessous */
-    background: rgba(255, 255, 255, 0.4);
-    border-radius: 50%;
-    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.8);
-    pointer-events: none;
-    z-index: 1; /* Devant l'ocean (-1) mais derrière le contenu (10) */
-    animation: flotter linear forwards;
-}
-
-@keyframes flotter {
-    0% {
-        transform: translateY(0) scale(0.5);
-        opacity: 0;
-    }
-    10% {
-        opacity: 0.8;
-    }
-    90% {
-        opacity: 0.8;
-    }
-    100% {
-        transform: translateY(-110vh) scale(1.5);
-        opacity: 0;
-    }
-}
-
-
-           
-        .btn-bois {
-            /* Fond et aspect visuel */
-            background-image: url('planche.bois.jpg');
-            background-size: cover;
-            background-position: center;
-            border: 2px solid #0c4a6e;
+            max-width: 320px;
+            /* Remplacement du bois par un bleu pro et profond */
+            background: linear-gradient(135deg, #1e3a8a, #0c4a6e);
+            border: 1.5px solid rgba(178, 235, 242, 0.3);
             border-radius: 50px;
-            
-            /* Texte */
-            color: #0c4a6e !important;
-            text-align: center;
+            color: #ffffff !important; /* Texte en blanc pour un max de lisibilité */
             text-decoration: none;
             font-family: 'Fredoka One', cursive;
-            font-size: 0.85rem;
-            font-weight: 900;
-            text-shadow: 0 0 8px white;
-            
-            /* Structure */
-            padding: 12px 5px;
+            font-size: 1.1rem;
+            padding: 16px;
+            margin-bottom: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Transition fluide et rebondissante */
-            
-            /* Ombre portée pour l'effet relief */
-            box-shadow: 0 4px #0c4a6e, 0 8px 15px rgba(0,0,0,0.1);
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent; /* Supprime le carré bleu sur mobile au clic */
+            gap: 12px;
+            box-shadow: 0 4px #062e45, 0 8px 20px rgba(0,0,0,0.15);
+            z-index: 10;
+            transition: all 0.15s ease;
         }
 
-        /* --- EFFET AU SURVOL (Ordinateur) --- */
-        .btn-bois:hover {
-            transform: translateY(-3px); /* Le bouton monte un peu */
-            box-shadow: 0 6px #0c4a6e, 0 12px 20px rgba(0,0,0,0.15);
-            filter: brightness(1.05);
+
+
+        .btn-link:active {
+            transform: translateY(4px); /* S'enfonce exactement de la taille de l'ombre */
+            box-shadow: 0 0px #0c4a6e, 0 2px 10px rgba(0,0,0,0.1);
         }
-        
-        /* Le bouton se soulève et projette une ombre portée */
-        .btn-bois:active, .btn-active {
-            transform: translateY(-8px) !important; /* Soulèvement plus marqué */
-            scale: 1 !important; 
-            /* On remplace la bordure dure par une ombre douce et profonde */
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4) !important; 
-            filter: brightness(1.05); /* Un très léger éclaircissement pour simuler la lumière */
-            z-index: 10;
+
+
+        .btn-link.gps {
+            background: #b3e5fc; /* Un bleu plus vif et "électrique" */
+            color: #ffffff !important;
+            background-image: none;
+            border: 2px solid #ffffff;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            box-shadow: 0 4px #0081cb, 0 8px 20px rgba(0, 176, 255, 0.3);
+            animation: pulse-gps 2s infinite ease-in-out;
         }
-            
-        .planche-container {
+
+
+        @keyframes pulse-gps {
+            0% { transform: scale(1); box-shadow: 0 4px #0081cb, 0 8px 20px rgba(0, 176, 255, 0.3); }
+            50% { transform: scale(1.03); box-shadow: 0 4px #0081cb, 0 12px 30px rgba(0, 176, 255, 0.5); }
+            100% { transform: scale(1); box-shadow: 0 4px #0081cb, 0 8px 20px rgba(0, 176, 255, 0.3); }
+        }
+
+
+        /* --- ESPACE SPONSOR --- */
+        .sponsor-box {
             width: 100%;
-            max-width: 700px;
-            margin-bottom: 35px;
-            background-image: url('planche.bois.jpg'); 
-            background-size: cover;
-            background-position: center 30%;
-            z-index: 10;
-            border: 3px solid #0c4a6e;
-            border-radius: 40px;
-            padding: 15px 30px;
-            box-sizing: border-box;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-            scroll-margin-top: 160px;
-            overflow: visible ;
-            position: relative;
-        }
-
-        .titre-section {
-            font-family: 'Fredoka One', cursive;
-            color: #0c4a6e;
+            max-width: 350px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px dashed #0c4a6e;
+            border-radius: 30px;
+            padding: 15px;
+            margin-bottom: 20px;
             text-align: center;
-            font-size: 1.8rem;
-            margin-bottom: 10px;
+            z-index: 10;
         }
-      
-        .ligne-produit {
+
+        /* --- FOOTER (Identique Menu) --- */
+        footer {
+            width: 100%;
+            max-width: 800px;
+            margin: auto auto 20px auto;
+            padding: 30px 10px;
+            border-top: 3px dotted #0c4a6e;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.3rem;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: flex-start;
+            gap: 15px; 
             color: #0c4a6e;
-            margin: 5px 0;
-            font-weight: bold;
-            padding: 8px 0;
-            background: transparent !important; 
-            border-bottom: 1px solid rgba(12, 74, 110, 0.15);
-        }
-        
-        .ligne-produit button:active {
-    transform: scale(0.9);
-    filter: brightness(0.9);
-}
-
-        
-
-        .prix {
-            background: #0c4a6e;
-            color: #b2ebf2;
-            padding: 2px 12px;
-            border-radius: 8px;
-            font-family: 'Fredoka One', cursive;
+            z-index: 100;
         }
 
-.btn-appel {
-    bottom: 25px;
-    left: 25px;
-    background: #0c4a6e;
-    color: #b2ebf2;
-    padding: 12px 20px;
-    border-radius: 30px;
-    text-decoration: none;
-    font-family: 'Fredoka One', cursive;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-}
-
-/* AJOUTER CETTE CLASSE */
-.btn-appel.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.tel-icon {
-    text-shadow: 0 0 2px rgba(255, 255, 255, 1), 0 0 2px rgba(255, 255, 255, 0.8);
-    filter: drop-shadow(0 0 2px white); /* Renforce l'éclat */
-    margin-right: 5px;
-}
-
-.badge-frais {
-    position: absolute;
-    top: -15px;      /* Valeur négative pour monter au-dessus du bord haut */
-    right: -10px;    /* Valeur négative pour sortir par la droite */
-    background: #b3e5fc;
-    color: #01579b;
-    font-size: 1rem;
-    padding: 5px 12px;
-    border-radius: 50px; /* Plus arrondi pour un look moderne */
-    border: 2px solid white;
-    font-family: 'Fredoka One', cursive;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    animation: frais-mouvement 2s infinite ease-in-out;
-    z-index: 20;
-}
-
-@keyframes frais-mouvement {
-    0% { transform: scale(1) rotate(0deg); }
-    25% { transform: scale(1.1) rotate(-5deg); } /* Incline à gauche et zoom */
-    50% { transform: scale(1.1) rotate(5deg); }  /* Incline à droite */
-    75% { transform: scale(1.1) rotate(-5deg); } /* Re-gauche */
-    100% { transform: scale(1) rotate(0deg); }   /* Retour à la normale */
-}
-
-      
-.scroll-top {
-    bottom: 25px;
-    right: 25px;
-    width: 55px;
-    height: 55px;
-    background-color: #0c4a6e;
-    color: #b2ebf2;
-    text-decoration: none;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;
-    font-weight: 900;
-    padding-bottom: 8px;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.4);
-}
-
-        .scroll-top.active {
-          opacity: 1; visibility: visible;
-            transform: translateY(0);
-        }
-      
-/* --- BOUTONS FLOTTANTS --- */
-.btn-appel, .scroll-top {
-    position: fixed;
-    z-index: 9999;
-    /* État caché par défaut */
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(20px); /* Légèrement plus bas au départ */
-    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s, bottom 0.3s ease;
-}
-
-.boutons-decales {
-    bottom: 85px !important; 
-}
-
-footer {
-    width: 100%;
-    max-width: 800px;
-    margin: 20px auto 100px auto;
-    padding: 30px 10px;
-    border-top: 3px dotted #0c4a6e;
-    display: flex;
-    flex-direction: row; /* Force l'alignement en ligne dès le mobile */
-    flex-wrap: wrap;    /* Permet de revenir à la ligne si c'est vraiment trop étroit */
-    justify-content: space-around;
-    align-items: flex-start;
-    gap: 15px; 
-    color: #0c4a6e;
-    text-align: center;
-    z-index: 100;
-}
-
-
-/* Sur tablette et ordinateur, on les remet côte à côte */
-@media (min-width: 600px) {
-    footer {
-        flex-direction: row; /* Côte à côte */
-        justify-content: space-around;
-        align-items: flex-start;
-    }
-}
-
-.footer-section { 
-    /* On réduit la largeur pour qu'elles tiennent à trois sur une ligne */
-    width: 30%; 
-    min-width: 100px; 
-}
-
-.footer-section h3 { 
-    font-family: 'Fredoka One', cursive; 
-    font-size: 0.9rem; /* On réduit un peu la taille pour le mobile */
-    margin-bottom: 8px;
-}
-
-.footer-section p {
-    font-size: 0.8rem; /* On réduit un peu la taille du texte */
-    line-height: 1.2;
-    margin: 3px 0;
-}
-
-.footer-copyright {
-    width: 100%; /* Le copyright prend toute la largeur pour rester en dessous */
-    font-size: 0.8rem;
-    opacity: 0.6;
-    margin-top: 20px;
-    padding-top: 15px;
-    text-align: center;
-}
-
-.footer-section img {
-    transition: transform 0.2s;
-}
-.footer-section img:active {
-    transform: scale(0.8);
-}
-
-       /* --- Bulles décoratives --- */
-       .bulle {
-         position: fixed; /* Fixé par rapport à l'écran */
-          bottom: -20px; /* Commence sous l'écran */
-    width: 10px;
-    height: 10px;
-    background: rgba(255, 255, 255, 0.5); /* Semi-transparent blanc */
-    z-index: 2;
-    border-radius: 50%;
-    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.8), 0 0 8px rgba(179, 229, 252, 0.7); /* Effet de brillance et de lumière bleue */
-    animation: flotter 10s infinite ease-out; /* Animation principale */
-    pointer-events: none; /* Ne bloque pas le clic sous la bulle */
-    z-index: 0; /* Pour qu'elles soient derrière le contenu, mais au-dessus des vagues */
-    opacity: 0; /* Invisible au départ */
-}
-
-@keyframes flotter {
-    0% {
-        transform: translateY(0) scale(0.5);
-        opacity: 0;
-    }
-    10% {
-        opacity: 1; /* Apparaît */
-    }
-    80% {
-        opacity: 0.8;
-    }
-    100% {
-        transform: translateY(-100vh) scale(1.2); /* Remonte et grossit */
-        opacity: 0; /* Disparaît en haut */
-    }
-}
-
-#panier-flottant {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: #0c4a6e;
-    color: white;
-    padding: 15px;
-    z-index: 10000;
-    display: none; /* Caché par défaut, activé par JS */
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
-    box-sizing: border-box;
-}
-
-.btn-commander {
-    background: #0c4a6e;
-    color: white;
-    border: 1px solid white;
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-family: 'Fredoka One', cursive;
-    cursor: pointer;
-    margin-left: 10px;
-    transition: all 0.3s;
-}
-
-.btn-commander:hover {
-    background: #00b0ff; /* Devient bleu clair au survol */
-    transform: scale(1.05); /* Grossit très légèrement */
-}
-
-
-.logo-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-    margin-bottom: 10px;
-    position: relative;
-    z-index: 10;
-}
-
-.logo-site {
-    width: 80%;           /* Large sur mobile */
-    max-width: 300px;     /* Taille idéale sur tablette */
-    height: auto;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-    animation: flotterLogo 3s infinite ease-in-out;
-}
-
-
-
-@keyframes flotterLogo {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-
-h1 {
-    font-family: 'Fredoka One', cursive;
-    color: #0c4a6e;
-    font-size: 2.8rem;
-    text-shadow: 2px 2px 4px white;
-    margin-bottom: 10px; /* <--- AUGMENTE ICI pour éloigner la phrase du titre */
-    text-align: center;
-}
-
-.container-map-transparent {
-    /* La largeur s'adapte : 92% sur mobile, et s'élargit sur tablette */
-    width: 92%;            
-    max-width: 700px;      /* Augmenté à 700px pour que sur tablette il soit confortable */
-    
-    margin: 20px auto;     
-    padding: 20px;         
-    box-sizing: border-box;
-    background: rgba(255, 255, 255, 0.2); 
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 40px;   
-    text-align: center;
-    z-index: 10;
-    position: relative;
-}
-
-/* Texte qui s'adapte aussi légèrement */
-.container-map-transparent p {
-    font-size: 1rem;       /* Un peu plus grand pour la lisibilité */
-    line-height: 1.4;
-    margin: 12px 0;
-}
-
-.container-map-transparent h2 {
-    font-size: 1.5rem;     
-    margin-bottom: 5px;
-}
-
-
-.btn-bois-map {
-    background-image: url('planche.bois.jpg');
-    background-size: cover;
-    background-position: center 30% ;
-    border: 2px solid #0c4a6e;
-    border-radius: 30px;
-    color: #0c4a6e !important;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 15px 30px;
-    text-decoration: none;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.2rem;
-    box-shadow: 0 4px #0c4a6e, 0 8px 15px rgba(0,0,0,0.1);
-    transition: all 0.2s ease;
-    margin: 15px 0;
-}
-
-.btn-bois-map:active {
-    transform: translateY(4px);
-    box-shadow: 0 0px #0c4a6e, 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.icon-boussole {
-    font-size: 1.5rem;
-    animation: rotation-boussole 3s infinite linear;
-}
-
-@keyframes rotation-boussole {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(-15deg); }
-    75% { transform: rotate(15deg); }
-    100% { transform: rotate(0deg); }
-}
-
-.mise-a-jour {
-    font-size: 0.9rem;
-    opacity: 0.8;
-    font-style: italic;
-}
-
-.btn-localisation-header {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 25px;
-    
-    /* Fond transparent givré */
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    
-    /* Bordure et Texte */
-    border: 2px solid #0c4a6e;
-    border-radius: 50px;
-    color: #0c4a6e !important;
-    
-    /* Typographie */
-    font-family: 'Fredoka One', cursive;
-    font-size: 1rem;
-    text-decoration: none;
-    
-    /* Animation et ombre */
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    cursor: pointer;
-}
-
-.btn-localisation-header:hover {
-    background: rgba(255, 255, 255, 0.4);
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-}
-
-/* Petit effet de pulsation sur l'icône pour attirer l'oeil */
-.pulse-icon {
-    display: inline-block;
-    animation: pulse-red 2s infinite;
-}
-
-@keyframes pulse-red {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.3); }
-    100% { transform: scale(1); }
-}
-
- 
-        
+        .footer-section { width: 30%; min-width: 100px; text-align: center; }
+        .footer-section h3 { font-family: 'Fredoka One', cursive; font-size: 0.9rem; margin-bottom: 8px; }
+        .footer-section p { font-size: 0.8rem; line-height: 1.2; margin: 3px 0; }
     </style>
 </head>
 <body>
+
     <div class="ocean">
         <div class="vague-calque v1"></div>
         <div class="vague-calque v2"></div>
         <div class="vague-calque v3"></div>
         <div class="vague-calque v4"></div>
     </div>
-    
-<div id="maBanderole" class="banderole-promo">
-    <div class="banderole-ruban">
-        <div class="defilement">
-            <span>🔥 PROMO : -10% sur le matériel de pêche ce week-end ! ⚓</span>
-            <span>🍦 Glaces à prix givrés pour les moussaillons ! ❄️</span>
-            <span>🔥 PROMO : -10% sur le matériel de pêche ce week-end ! ⚓</span>
-        </div>
+
+    <div class="logo-container">
+        <img src="logo.png" alt="Logo" class="logo-site">
     </div>
-</div>
 
-
-<div class="logo-container">
-    <img src="logo.png" alt="Logo Épicerie en Mer" class="logo-site">
-</div>
-
-<div class="header-titre">
     <h1>ÉPICERIE EN MER</h1>
-        <p class="slogan">Le bateau qui a tout ce qu'il vous faut !</p>
-    <p class="localisation">- De l'île aux oiseaux au Banc d'Arguin -</p>
-   <div style="margin: 20px 0;">
-    <a href="#localisation" class="btn-localisation-header">
-        <span class="pulse-icon">📍</span> OÙ EST LE BATEAU ?
+
+    <a href="TON_LIEN_GOOGLE" id="gps-link" class="btn-link gps">
+        📍 OÙ EST LE BATEAU ?
     </a>
-</div>
 
-</div>
-    
-        <div style="width: 100%; max-width: 800px; margin-bottom: 15px; padding: 0 10px; box-sizing: border-box;">
+    <a href="menu.html" class="btn-link">
+        🥤 VOIR LE MENU & TARIFS
+    </a>
 
-    <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="🔍 Rechercher un produit..." 
-    style="width: 80%; max-width: 600px; display: block; margin: 0 auto 20px auto; padding: 12px 20px; border-radius: 25px;z-index: 10 ;border: 2px solid #0c4a6e; font-family: 'Patrick Hand', cursive; font-size: 1.1rem; outline: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1);background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(5px); color: #0c4a6e;">
-
-    </div>
-
-    <div class="nav-grid">
-        <a href="#boissons" class="btn-bois">BOISSONS</a>
-        <a href="#snack" class="btn-bois">SNACK</a>
-        <a href="#glace" class="btn-bois">GLACE</a>
-        <a href="#vetement" class="btn-bois">VÊTEMENT</a>
-        <a href="#divers" class="btn-bois">DIVERS</a>
-        <a href="#peche" class="btn-bois">PÊCHE</a>
-    </div>
-    
-
-    <div id="boissons" class="planche-container">
-        <h2 class="titre-section">Boissons</h2>
-        <div class="ligne-produit">
-            <span>Jus d'Orange</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">3.50€</span>
-                <button class="panier-actif" onclick="changeQuantite('Jus_d_Orange', 3.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-Jus_d_Orange">0</span>
-                <button class="panier-actif" onclick="changeQuantite('Jus_d_Orange', 3.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
-        </div>
-        <div class="ligne-produit">
-            <span>Café Pirate</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">2.00€</span>
-                <button class="panier-actif" onclick="changeQuantite('Cafe_Pirate', 2.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-Cafe_Pirate">0</span>
-                <button class="panier-actif" onclick="changeQuantite('Cafe_Pirate', 2.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
-        </div>
-        <div class="ligne-produit">
-            <span>Eau Gazeuse</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">2.50€</span>
-                <button class="panier-actif" onclick="changeQuantite('Eau_Gazeuse', 2.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-Eau_Gazeuse">0</span>
-                <button class="panier-actif" onclick="changeQuantite('Eau_Gazeuse', 2.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
-        </div>
-        <div class="ligne-produit">
-            <span>Eau Plate</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">2.50€</span>
-                <button class="panier-actif" onclick="changeQuantite('Eau_Plate', 2.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-Eau_Plate">0</span>
-                <button class="panier-actif" onclick="changeQuantite('Eau_Plate', 2.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
+    <div class="sponsor-box">
+        <p style="font-family:'Fredoka One'; font-size: 0.7rem; margin:0 0 10px 0; opacity: 0.7;">✨ ESPACE PARTENAIRE</p>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <div style="width:40px; height:40px; background:rgba(0,0,0,0.1); border-radius:50%;"></div>
+            <p style="margin:0; font-size: 0.9rem;">VOTRE MARQUE ICI<br><small>Saison 2026</small></p>
         </div>
     </div>
 
-    <div id="snack" class="planche-container">
-        <h2 class="titre-section">Snack</h2>
-        <div class="ligne-produit">
-            <span>Sandwich Mixte</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">6.00€</span>
-                <button class="panier-actif" onclick="changeQuantite('Sandwich_Mixte', 6.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-Sandwich_Mixte">0</span>
-                <button class="panier-actif" onclick="changeQuantite('Sandwich_Mixte', 6.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
-        </div>
-        <div class="ligne-produit">
-            <span>Paquet de Chips</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">2.50€</span>
-                <button class="panier-actif" onclick="changeQuantite('Chips', 2.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-Chips">0</span>
-                <button class="panier-actif" onclick="changeQuantite('Chips', 2.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
-        </div>
-    </div>
+    <a href="URL_INSTAGRAM" style="text-decoration:none; color:#0c4a6e; font-family:'Fredoka One'; display:flex; align-items:center; gap:10px; margin-bottom: 40px;">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="30" alt="Insta">
+        <span>@epicerie.en.mer</span>
+    </a>
 
-    <div id="glace" class="planche-container" style="position: relative;">
-        <span class="badge-frais">Ultra frais ! ❄️</span>
-        <h2 class="titre-section">Glace</h2>
+    <footer>
+        <div class="footer-section">
+            <h3>🕒 HORAIRES</h3>
+            <p>Tous les jours<br>08h00 - 19h00</p>
+        </div>
+        <div class="footer-section">
+            <h3>📞 CONTACT</h3>
+            <p>06 59 82 17 71</p>
+            <p>VHF : Canal 72</p>
+        </div>
+        <div class="footer-section">
+            <h3>📍 ACCÈS</h3>
+            <p>Bassin d'Arcachon<br>Au mouillage</p>
+        </div>
         
-        <div class="ligne-produit">
-            <span>Cône Vanille</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">3.50€</span>
-                <button class="panier-actif" onclick="changeQuantite('Cone_Vanille', 3.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-Cone_Vanille">0</span>
-                <button class="panier-actif" onclick="changeQuantite('Cone_Vanille', 3.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
+        <div class="footer-copyright" style="width: 100%; font-size: 0.8rem; opacity: 0.6; margin-top: 20px; padding-top: 15px; text-align: center;">
+            &copy; 2026 ÉPICERIE EN MER
         </div>
+    </footer>
 
-        <div class="ligne-produit">
-            <span>Magnum</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">4.00€</span>
-                <button class="panier-actif" onclick="changeQuantite('Magnum', 4.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-Magnum">0</span>
-                <button class="panier-actif" onclick="changeQuantite('Magnum', 4.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
-        </div>
-    </div>
+    <script>
+        // Bulles (Même script que le menu)
+        function creerBulle() {
+            const bulle = document.createElement('div');
+            bulle.classList.add('bulle');
+            document.body.appendChild(bulle);
+            const taille = Math.random() * 20 + 5; 
+            bulle.style.width = `${taille}px`;
+            bulle.style.height = `${taille}px`;
+            bulle.style.left = `${Math.random() * 100}vw`; 
+            bulle.style.animationDuration = `${Math.random() * 10 + 5}s`; 
+            bulle.addEventListener('animationend', () => bulle.remove());
+        }
+        setInterval(creerBulle, 600);
 
-
-    <div id="vetement" class="planche-container">
-        <h2 class="titre-section">Vêtement</h2>
-        <div class="ligne-produit">
-            <span>T-shirt Marin</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">15.00€</span>
-                <button class="panier-actif" onclick="changeQuantite('Tshirt_Marin', 15.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-Tshirt_Marin">0</span>
-                <button class="panier-actif" onclick="changeQuantite('Tshirt_Marin', 15.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
-        </div>
-        <div class="ligne-produit">
-            <span>Casquette</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">10.00€</span>
-                <button class="panier-actif" onclick="changeQuantite('Casquette', 10.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-Casquette">0</span>
-                <button class="panier-actif" onclick="changeQuantite('Casquette', 10.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="divers" class="planche-container">
-        <h2 class="titre-section">Divers</h2>
-        <div class="ligne-produit">
-            <span>Crème Solaire</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">8.50€</span>
-                <button class="panier-actif" onclick="changeQuantite('Creme_Solaire', 8.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-Creme_Solaire">0</span>
-                <button class="panier-actif" onclick="changeQuantite('Creme_Solaire', 8.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
-        </div>
-        <div class="ligne-produit">
-            <span>Lunettes</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">12.00€</span>
-                <button class="panier-actif" onclick="changeQuantite('Lunettes', 12.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-Lunettes">0</span>
-                <button class="panier-actif" onclick="changeQuantite('Lunettes', 12.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="peche" class="planche-container">
-        <h2 class="titre-section">Pêche</h2>
-        <div class="ligne-produit">
-            <span>Appats frais</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">5.00€</span>
-                <button class="panier-actif" onclick="changeQuantite('Appats_frais', 5.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-Appats_frais">0</span>
-                <button class="panier-actif" onclick="changeQuantite('Appats_frais', 5.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
-        </div>
-        <div class="ligne-produit">
-            <span>Hameçons</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">2.50€</span>
-                <button class="panier-actif" onclick="changeQuantite('Hamecons', 2.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-Hamecons">0</span>
-                <button class="panier-actif" onclick="changeQuantite('Hamecons', 2.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
-        </div>
-    </div>
-
-<div id="panier-flottant" class="panier-actif">   
-    <div style="font-size: 1.2rem; display:flex; align-items:center; gap:10px; flex:1;">
-        <span>Retrait sur place :</span>
-        <span style="white-space:nowrap; font-family:'Fredoka One'; background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:8px;">
-            Total: <span id="total-prix">0.00</span>€
-        </span>
-        <button class="panier-actif" onclick="viderPanier()" title="Vider le panier" style="background:none; border:none; font-size:1.2rem; cursor:pointer; padding:5px;">🗑️</button>
-    </div>
-   <button onclick="envoyerWhatsApp(); cronitor('track', 'Validation_Commande')" class="btn-commander">Commander ⚓</button>
-</div>
-
-<div class="container-map-transparent" id="localisation">
-    <div class="carte-info-bulles">
-        <h2 class="titre-section" style="margin-top: 0;">📍 Position du Capitaine</h2>
-        <p>Cliquez sur la boussole pour nous situer en direct sur Google Maps et venir nous aborder !</p>
-        <a href="https://linktr.ee/epicerie.en.mer" target="_blank" class="btn-bois-map">
-            <span class="icon-boussole">🧭</span> VOIR SUR MAPS
-        </a>
-        
-        <p class="mise-a-jour">Lien actif en temps réel ⚓</p>
-    </div>
-</div>
-     
-     
-<footer>
-    <div class="footer-section">
-        <h3>🕒 HORAIRES</h3>
-        <p>Tous les jours<br>08h00 - 19h00</p>
-    </div>
-    <div class="footer-section">
-        <h3>📞 CONTACT</h3>
-        <p>Tél : 06 59 82 17 71</p>
-        <p>VHF : Canal 72</p>
-        
-        <div style="margin-top: 15px; display: flex; justify-content: center; gap: 15px;">
-            <a href="URL_FACEBOOK" target="_blank" onclick="cronitor('track', 'Clic_Facebook')" style="display: inline-block;">
-                <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" width="25" alt="Facebook">
-            </a>
-
-            <a href="URL_INSTAGRAM" target="_blank" onclick="cronitor('track', 'Clic_Instagram')" style="display: inline-block;">
-                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="25" alt="Instagram">
-            </a>
-        </div>
-    </div>
-
-    <div class="footer-section">
-        <h3>📍 ACCÈS</h3>
-        <p>En plaisance<br>Au mouillage</p>
-    </div>
-    <div class="footer-copyright">
-        &copy; 2026 ÉPICERIE EN MER
-    </div>
-</footer>
-
-<a href="tel:0659821771" class="btn-appel" onclick="cronitor('track', 'Appel_Direct')"><span class="tel-icon">📞</span> Demande d'info</a>
-
-<a href="#" id="scrollTop" class="scroll-top">↑</a>
-
-
-    <script>// --- VARIABLES GLOBALES ---
-let panier = {};
-let total = 0;
-
-// --- INITIALISATION AU CHARGEMENT ---
-window.onload = function() {
-    chargerPanierSauvegarde(); // On récupère l'ancien panier s'il existe
-    
-    // Initialisation des bulles
-    setInterval(creerBulle, 600); 
-    for (let i = 0; i < 10; i++) {
-        creerBulle();
-    }
-};
-
-// --- GESTION DU PANIER ---
-
-// Charger les données depuis le navigateur
-function chargerPanierSauvegarde() {
-    const sauvegarde = localStorage.getItem('monPanierEpicerie');
-    if (sauvegarde) {
-        panier = JSON.parse(sauvegarde);
-        // On met à jour l'affichage des chiffres sur les planches
-        for (let produit in panier) {
-            let el = document.getElementById(`qte-${produit}`);
-            if (el) {
-                el.innerText = panier[produit].qte;
+        // Redirection GPS automatique
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const gpsUrl = document.getElementById('gps-link').href;
+            if (urlParams.get('action') === 'gps' && gpsUrl.includes('http')) {
+                window.location.href = gpsUrl;
             }
-        }
-        calculerTotal();
-    }
-}
-
-// Ajouter ou retirer un produit
-function changeQuantite(nom, prix, delta) {
-    if (!panier[nom]) panier[nom] = { qte: 0, prix: prix };
-    
-    panier[nom].qte += delta;
-    
-    // Sécurité : pas de quantité négative
-    if (panier[nom].qte < 0) panier[nom].qte = 0;
-
-    // Mise à jour visuelle du chiffre sur la planche
-    let el = document.getElementById(`qte-${nom}`);
-    if (el) {
-        el.innerText = panier[nom].qte;
-        // Petit effet de flash visuel
-        el.classList.remove('flash'); 
-        void el.offsetWidth; 
-        el.classList.add('flash');
-    }
-    
-    // Sauvegarde immédiate
-    localStorage.setItem('monPanierEpicerie', JSON.stringify(panier));
-    calculerTotal();
-}
-
-// Calculer le prix total et afficher/cacher la barre de commande
-function calculerTotal() {
-    total = 0;
-    for (let item in panier) {
-        total += panier[item].qte * panier[item].prix;
-    }
-    
-    // Mise à jour de l'affichage du total
-    const totalPrixEl = document.getElementById('total-prix');
-    if (totalPrixEl) totalPrixEl.innerText = total.toFixed(2);
-    
-    const panierDiv = document.getElementById('panier-flottant');
-    const btnAppel = document.querySelector('.btn-appel');
-    const btnTop = document.getElementById('scrollTop');
-
-    if (total > 0) {
-        panierDiv.style.display = 'flex';
-        // Décale les boutons vers le haut pour ne pas gêner
-        if(btnAppel) btnAppel.classList.add('boutons-decales');
-        if(btnTop) btnTop.classList.add('boutons-decales');
-    } else {
-        panierDiv.style.display = 'none';
-        // Remet les boutons à leur place
-        if(btnAppel) btnAppel.classList.remove('boutons-decales');
-        if(btnTop) btnTop.classList.remove('boutons-decales');
-    }
-}
-
-// Vider tout le panier d'un coup
-function viderPanier() {
-    if (confirm("Voulez-vous vraiment vider tout votre panier ?")) {
-        panier = {};
-        
-        // Remise à zéro visuelle de tous les compteurs
-        const compteurs = document.querySelectorAll('[id^="qte-"]');
-        compteurs.forEach(span => {
-            span.innerText = "0";
-        });
-
-        localStorage.removeItem('monPanierEpicerie');
-        calculerTotal();
-    }
-}
-
-
-// --- ENVOI DE LA COMMANDE ---
-function envoyerWhatsApp() {
-    let m = "Bonjour l'Épicerie en Mer ! ⚓ Voici ma commande :%0A";
-    let empty = true;
-    
-    for (let i in panier) {
-        if (panier[i].qte > 0) {
-            let nomPropre = i.replace(/_/g, ' '); 
-            m += `- ${panier[i].qte}x ${nomPropre}%0A`;
-            empty = false;
-        }
-    }
-    
-    if (empty) {
-        alert("Votre panier est vide !");
-        return;
-    }
-    
-    m += `%0ATotal: ${total.toFixed(2)}€%0APosition Bateau : [À compléter] ⛵`;
-    
-    // 1. D'abord on ouvre WhatsApp
-    window.open(`https://wa.me/33659821771?text=${m}`, '_blank');
-
-    // 2. ENSUITE on propose de vider le panier (on attend 1 seconde pour laisser WhatsApp s'ouvrir)
-    setTimeout(() => {
-        if(confirm("Commande envoyée vers WhatsApp ! Voulez-vous vider votre panier actuel ?")) {
-            viderPanier();
-        }
-    }, 1000);
-}
-
-
-// --- GESTION DE L'APPARITION DES BOUTONS (FONDU) ---
-const btnRemonter = document.getElementById("scrollTop");
-const btnAppel = document.querySelector(".btn-appel");
-
-window.addEventListener('scroll', function() {
-    if (window.scrollY > 300) {
-        btnRemonter.classList.add("active");
-        btnAppel.classList.add("active");
-    } else {
-        btnRemonter.classList.remove("active");
-        btnAppel.classList.remove("active");
-    }
-});
-
-// Filtre de recherche
-function filterProducts() {
-    let input = document.getElementById('searchInput').value.toLowerCase();
-    let sections = document.getElementsByClassName('planche-container');
-    
-    for (let i = 0; i < sections.length; i++) {
-        let items = sections[i].getElementsByClassName('ligne-produit');
-        let sectionHasMatch = false;
-        
-        for (let j = 0; j < items.length; j++) {
-            let productName = items[j].getElementsByTagName('span')[0].innerText.toLowerCase();
-            if (productName.includes(input)) {
-                items[j].style.display = "flex";
-                sectionHasMatch = true;
-            } else {
-                items[j].style.display = "none";
-            }
-        }
-        sections[i].style.display = sectionHasMatch ? "block" : "none";
-    }
-}
-
-// Effet de menu actif au scroll (ScrollSpy)
-const observerOptions = {
-    root: null,
-    rootMargin: '-25% 0px -70% 0px', 
-    threshold: 0
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const id = entry.target.getAttribute('id');
-            document.querySelectorAll('.btn-bois').forEach(btn => {
-                btn.classList.remove('btn-active');
-            });
-            const activeBtn = document.querySelector(`.btn-bois[href="#${id}"]`);
-            if (activeBtn) activeBtn.classList.add('btn-active');
-        }
-    });
-}, observerOptions);
-
-document.querySelectorAll('.planche-container').forEach(section => {
-    observer.observe(section);
-});
-
-// --- DÉCORATION : GÉNÉRATION DES BULLES ---
-function creerBulle() {
-    const bulle = document.createElement('div');
-    bulle.classList.add('bulle');
-    document.body.appendChild(bulle);
-
-    const taille = Math.random() * 20 + 5; 
-    bulle.style.width = `${taille}px`;
-    bulle.style.height = `${taille}px`;
-    bulle.style.left = `${Math.random() * 100}vw`; 
-    bulle.style.animationDuration = `${Math.random() * 10 + 5}s`; 
-    bulle.style.animationDelay = `${Math.random() * 5}s`; 
-
-    bulle.addEventListener('animationend', () => {
-        bulle.remove();
-    });
-}
-
-
-
+        };
     </script>
-
 </body>
 </html>
