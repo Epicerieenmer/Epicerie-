@@ -224,8 +224,33 @@ div[style*="max-width: 800px"] {
 }
 
 .bulle {
-    z-index: 1; /* Les bulles sont devant les vagues (-1) mais derrière le reste (10) */
+    position: fixed;
+    bottom: -50px; /* On commence bien en dessous */
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.8);
+    pointer-events: none;
+    z-index: 1; /* Devant l'ocean (-1) mais derrière le contenu (10) */
+    animation: flotter linear forwards;
 }
+
+@keyframes flotter {
+    0% {
+        transform: translateY(0) scale(0.5);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-110vh) scale(1.5);
+        opacity: 0;
+    }
+}
+
 
            
         .btn-bois {
@@ -975,7 +1000,7 @@ window.onload = function() {
     chargerPanierSauvegarde(); // On récupère l'ancien panier s'il existe
     
     // Initialisation des bulles
-    setInterval(creerBulle, 500); 
+    setInterval(creerBulle, 600); 
     for (let i = 0; i < 10; i++) {
         creerBulle();
     }
@@ -1178,9 +1203,6 @@ function creerBulle() {
     });
 }
 
-html {
-    scroll-behavior: smooth;
-}
 
 
     </script>
