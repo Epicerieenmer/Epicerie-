@@ -7,180 +7,175 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Patrick+Hand&display=swap" rel="stylesheet">
     
     <style>
-        /* --- CONFIGURATION GÉNÉRALE (Identique Menu) --- */
+        /* --- CONFIGURATION GÉNÉRALE (Optimisée sans scroll) --- */
         body {
             margin: 0;
-            padding: 20px;
-            font-family: 'Patrick Hand', cursive;
+            padding: 0;
+            height: 100vh; /* Fixe la hauteur à l'écran */
             display: flex;
             flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
+            justify-content: space-between; /* Répartit haut, centre et bas */
+            font-family: 'Patrick Hand', cursive;
             background-color: #e0f7fa;
-            position: relative;
-            z-index: 0;
+            overflow: hidden; /* Supprime le défilement */
         }
-
-        /* --- SYSTÈME DE VAGUES (Copié du Menu) --- */
+        
+        /* --- SYSTÈME DE VAGUES --- */
         .ocean {
             position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
+            width: 100%; height: 100%;
+            top: 0; left: 0;
             z-index: -1;
             pointer-events: none;
         }
-
         .vague-calque {
             position: absolute;
-            width: 250vw;
-            height: 250vw;
-            left: -75vw;
-            opacity: 0.25;
+            width: 250vw; height: 250vw;
+            left: -75vw; opacity: 0.25;
             border-radius: 43%;
         }
-
         .v1 { background: linear-gradient(135deg, #f8bbd0, #f48fb1); top: -130vw; animation: derive 20s infinite linear; opacity: 0.45; }
         .v2 { background: linear-gradient(135deg, #b2dfdb, #80cbc4); top: -160vw; animation: derive 30s infinite reverse linear; }
         .v3 { background: linear-gradient(135deg, #b3e5fc, #81d4fa); top: -200vw; animation: derive 25s infinite linear; }
         .v4 { background: linear-gradient(135deg, #b2ebf2, #4dd0e1); top: -300vw; animation: derive 35s infinite reverse linear; }
+        @keyframes derive { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        @keyframes derive {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* --- BULLES (Copié du Menu) --- */
+        /* --- BULLES --- */
         .bulle {
-            position: fixed;
-            bottom: -20px;
-            width: 10px;
-            height: 10px;
+            position: fixed; bottom: -20px;
+            width: 10px; height: 10px;
             background: rgba(255, 255, 255, 0.5);
             border-radius: 50%;
             box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.8), 0 0 8px rgba(179, 229, 252, 0.7);
             animation: flotter 10s infinite ease-out;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0;
+            pointer-events: none; z-index: 0; opacity: 0;
         }
-
         @keyframes flotter {
             0% { transform: translateY(0) scale(0.5); opacity: 0; }
             10% { opacity: 1; }
             100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
         }
 
-        /* --- CONTENU --- */
+        /* --- LOGO --- */
         .logo-container {
-            margin-top: 30px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
             z-index: 10;
         }
-
         .logo-site {
-            width: 200px;
+            width: 180px; /* Taille optimisée pour l'écran */
+            height: auto;
             filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
             animation: flotterLogo 3s infinite ease-in-out;
         }
+        @keyframes flotterLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        @keyframes flotterLogo {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        /* --- TITRES --- */
+        .header-titre {
+            text-align: center;
+            width: 100%;
+            margin-bottom: 10px;
+            z-index: 10;
         }
-
         h1 {
             font-family: 'Fredoka One', cursive;
             color: #0c4a6e;
-            font-size: 2.5rem;
+            font-size: 2rem;
+            margin: 5px 0;
             text-shadow: 2px 2px 4px white;
-            text-align: center;
-            z-index: 10;
+        }
+        .slogan {
+            font-size: 1.1rem;
+            color: #0c4a6e;
+            margin: 0;
+            font-family: 'Patrick Hand', cursive;
+        }
+        .localisation {
+            font-size: 1rem;
+            color: #d84315;
+            font-weight: bold;
+            margin: -5px 0 10px 0; 
+            text-shadow: 1px 1px 2px white;
+            font-family: 'Patrick Hand', cursive;
         }
 
-        /* --- BOUTONS BOIS (Style Menu) --- */
+        /* --- BOUTONS --- */
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            flex-grow: 1; /* Prend l'espace central */
+            z-index: 10;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
         .btn-link {
             width: 100%;
             max-width: 320px;
-            /* Remplacement du bois par un bleu pro et profond */
             background: linear-gradient(135deg, #1e3a8a, #0c4a6e);
             border: 1.5px solid rgba(178, 235, 242, 0.3);
             border-radius: 50px;
-            color: #ffffff !important; /* Texte en blanc pour un max de lisibilité */
+            color: #ffffff !important;
             text-decoration: none;
             font-family: 'Fredoka One', cursive;
             font-size: 1.1rem;
             padding: 16px;
-            margin-bottom: 18px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-            box-shadow: 0 4px #062e45, 0 8px 20px rgba(0,0,0,0.15);
-            z-index: 10;
+            box-shadow: 0 4px #062e45, 0 8px 15px rgba(0,0,0,0.15);
             transition: all 0.15s ease;
         }
-
-
-
         .btn-link:active {
-            transform: translateY(4px); /* S'enfonce exactement de la taille de l'ombre */
+            transform: translateY(4px);
             box-shadow: 0 0px #0c4a6e, 0 2px 10px rgba(0,0,0,0.1);
         }
-
-
         .btn-link.gps {
-            background: #b3e5fc; /* Un bleu plus vif et "électrique" */
+            background: #b3e5fc;
             color: #ffffff !important;
-            background-image: none;
             border: 2px solid #ffffff;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
             box-shadow: 0 4px #0081cb, 0 8px 20px rgba(0, 176, 255, 0.3);
             animation: pulse-gps 2s infinite ease-in-out;
         }
-
-
         @keyframes pulse-gps {
             0% { transform: scale(1); box-shadow: 0 4px #0081cb, 0 8px 20px rgba(0, 176, 255, 0.3); }
             50% { transform: scale(1.03); box-shadow: 0 4px #0081cb, 0 12px 30px rgba(0, 176, 255, 0.5); }
             100% { transform: scale(1); box-shadow: 0 4px #0081cb, 0 8px 20px rgba(0, 176, 255, 0.3); }
         }
 
-
-        /* --- ESPACE SPONSOR --- */
+        /* --- SPONSOR --- */
         .sponsor-box {
             width: 100%;
-            max-width: 350px;
+            max-width: 320px;
             background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
             border: 2px dashed #0c4a6e;
             border-radius: 30px;
-            padding: 15px;
-            margin-bottom: 20px;
+            padding: 12px;
+            margin-bottom: 15px;
             text-align: center;
-            z-index: 10;
         }
 
-        /* --- FOOTER (Identique Menu) --- */
+        /* --- FOOTER --- */
         footer {
             width: 100%;
-            max-width: 800px;
-            margin: auto auto 20px auto;
-            padding: 30px 10px;
+            padding: 15px 10px;
             border-top: 3px dotted #0c4a6e;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around;
-            align-items: flex-start;
-            gap: 15px; 
             color: #0c4a6e;
             z-index: 100;
         }
-
         .footer-section { width: 30%; min-width: 100px; text-align: center; }
-        .footer-section h3 { font-family: 'Fredoka One', cursive; font-size: 0.9rem; margin-bottom: 8px; }
-        .footer-section p { font-size: 0.8rem; line-height: 1.2; margin: 3px 0; }
+        .footer-section h3 { font-family: 'Fredoka One', cursive; font-size: 0.85rem; margin-bottom: 5px; }
+        .footer-section p { font-size: 0.75rem; line-height: 1.2; margin: 0; }
     </style>
 </head>
 <body>
@@ -192,32 +187,43 @@
         <div class="vague-calque v4"></div>
     </div>
 
-    <div class="logo-container">
-        <img src="logo.png" alt="Logo" class="logo-site">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 5px; width: 100%; z-index: 10; padding-top: 10px;">
+    
+    <img src="logo.png" alt="Logo" class="logo-site" style="width: 170px; margin-bottom: 5px;">
+
+    <div class="header-titre" style="margin: 0;">
+        <h1 style="margin: 0; font-size: 1.8rem;">ÉPICERIE EN MER</h1>
+        <p class="slogan" style="margin: 0;">Le bateau qui a tout ce qu'il vous faut !</p>
+        <p class="localisation" style="margin: 2px 0 0 0;">- De l'île aux oiseaux au Banc d'Arguin -</p>
     </div>
+    
+</div>
 
-    <h1>ÉPICERIE EN MER</h1>
-
-    <a href="TON_LIEN_GOOGLE" id="gps-link" class="btn-link gps">
+<div class="links-container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; flex-grow: 1; z-index: 10; gap: 15px; padding: 10px 20px;">
+    
+    <a href="https://maps.app.goo.gl/6z8Er3TosWTqzhs96" id="gps-link" class="btn-link gps" style="margin: 0;">
         📍 OÙ EST LE BATEAU ?
     </a>
 
-    <a href="menu.html" class="btn-link">
+    <a href="menu.html" class="btn-link" style="margin: 0;">
         🥤 VOIR LE MENU & TARIFS
     </a>
 
-    <div class="sponsor-box">
-        <p style="font-family:'Fredoka One'; font-size: 0.7rem; margin:0 0 10px 0; opacity: 0.7;">✨ ESPACE PARTENAIRE</p>
+    <div class="sponsor-box" style="margin: 0; padding: 10px; width: 100%; max-width: 320px;">
+        <p style="font-family:'Fredoka One'; font-size: 0.65rem; margin:0 0 5px 0; opacity: 0.7;">✨ ESPACE PARTENAIRE</p>
         <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-            <div style="width:40px; height:40px; background:rgba(0,0,0,0.1); border-radius:50%;"></div>
-            <p style="margin:0; font-size: 0.9rem;">VOTRE MARQUE ICI<br><small>Saison 2026</small></p>
+            <div style="width:35px; height:35px; background:rgba(0,0,0,0.1); border-radius:50%;"></div>
+            <p style="margin:0; font-size: 0.85rem;">VOTRE MARQUE ICI<br><small>Saison 2026</small></p>
         </div>
     </div>
 
-    <a href="URL_INSTAGRAM" style="text-decoration:none; color:#0c4a6e; font-family:'Fredoka One'; display:flex; align-items:center; gap:10px; margin-bottom: 40px;">
-        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="30" alt="Insta">
+    <a href="URL_INSTAGRAM" style="text-decoration:none; color:#0c4a6e; font-family:'Fredoka One'; display:flex; align-items:center; gap:8px; font-size: 0.95rem;">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="24" alt="Insta">
         <span>@epicerie.en.mer</span>
     </a>
+
+</div>
+
 
     <footer>
         <div class="footer-section">
@@ -226,35 +232,38 @@
         </div>
         <div class="footer-section">
             <h3>📞 CONTACT</h3>
-            <p>06 59 82 17 71</p>
-            <p>VHF : Canal 72</p>
+            <p>06 59 82 17 71<br>VHF : Canal 72</p>
         </div>
         <div class="footer-section">
             <h3>📍 ACCÈS</h3>
             <p>Bassin d'Arcachon<br>Au mouillage</p>
         </div>
         
-        <div class="footer-copyright" style="width: 100%; font-size: 0.8rem; opacity: 0.6; margin-top: 20px; padding-top: 15px; text-align: center;">
-            &copy; 2026 ÉPICERIE EN MER
+        <div class="footer-copyright" style="width: 100%; margin-top: 10px; text-align: center;">
+            <p style="margin: 0; font-size: 0.7rem; opacity: 0.8; letter-spacing: 0.5px;">
+            <span> 🌈 Design et Création Arthur GAY <span style="display:inline-block; transform: scaleX(-1);">🌈</span></span>
+            </p>
+
+            <p style="margin: 2px 0 0 0; font-size: 0.65rem; opacity: 0.5;">
+                &copy; 2026 ÉPICERIE EN MER
+            </p>
         </div>
     </footer>
 
     <script>
-        // Bulles (Même script que le menu)
         function creerBulle() {
             const bulle = document.createElement('div');
             bulle.classList.add('bulle');
             document.body.appendChild(bulle);
-            const taille = Math.random() * 20 + 5; 
+            const taille = Math.random() * 15 + 5; 
             bulle.style.width = `${taille}px`;
             bulle.style.height = `${taille}px`;
             bulle.style.left = `${Math.random() * 100}vw`; 
             bulle.style.animationDuration = `${Math.random() * 10 + 5}s`; 
             bulle.addEventListener('animationend', () => bulle.remove());
         }
-        setInterval(creerBulle, 600);
+        setInterval(creerBulle, 700);
 
-        // Redirection GPS automatique
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             const gpsUrl = document.getElementById('gps-link').href;

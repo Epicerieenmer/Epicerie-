@@ -288,50 +288,47 @@ div[style*="max-width: 800px"] {
     }
 }
 
-        
                 .btn-bois {
-            /* On enlève l'image bois pour un bleu uni pro */
+            /* Look Bleu Sobre (Sans image bois) */
             background: #0c4a6e;
-            border: 1.5px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px; /* Un peu moins arrondi pour faire plus "appli" */
+            border: 2px solid #b2ebf2; /* Bordure claire pour faire ressortir le bleu */
+            border-radius: 50px; /* On garde ton arrondi généreux */
             
-            /* Texte */
+            /* Texte (Couleurs de ta nouvelle trame) */
             color: #b2ebf2 !important;
             text-align: center;
             text-decoration: none;
             font-family: 'Fredoka One', cursive;
-            font-size: 0.75rem; /* Un peu plus petit pour la sobriété */
-            text-shadow: none;
+            font-size: 0.85rem;
+            font-weight: 900;
+            text-shadow: none; /* Plus sobre, sans contour blanc */
             
-            /* Structure */
-            padding: 10px 5px;
+            /* Structure et Animation (Ancienne trame) */
+            padding: 12px 5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             
-            /* Ombre portée plus discrète */
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            /* Ombre portée pour l'effet relief (Ancienne trame) */
+            box-shadow: 0 4px #062e45, 0 8px 15px rgba(0,0,0,0.1);
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
         }
 
-
-        /* --- EFFET AU SURVOL (Ordinateur) --- */
-        .btn-bois:hover {
-            transform: translateY(-3px); /* Le bouton monte un peu */
-            box-shadow: 0 6px #0c4a6e, 0 12px 20px rgba(0,0,0,0.15);
-            filter: brightness(1.05);
+        /* Effet d'enfoncement quand on clique (Ancienne trame) */
+        .btn-bois:active {
+            transform: translateY(4px);
+            box-shadow: 0 0px #062e45, 0 4px 10px rgba(0,0,0,0.1);
         }
-        
-        /* Le bouton se soulève et projette une ombre portée */
-        .btn-bois:active, .btn-active {
-            transform: translateY(-8px) !important; /* Soulèvement plus marqué */
-            scale: 1 !important; 
-            /* On remplace la bordure dure par une ombre douce et profonde */
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4) !important; 
-            filter: brightness(1.05); /* Un très léger éclaircissement pour simuler la lumière */
-            z-index: 10;
+
+        /* État actif (Quand on est dans la section) */
+        .btn-active {
+            background: #b2ebf2 !important;
+            color: #0c4a6e !important;
+            border-color: #0c4a6e;
+            transform: scale(1.05);
+            box-shadow: 0 4px #0c4a6e, 0 8px 20px rgba(0,0,0,0.2);
         }
         
             
@@ -796,8 +793,6 @@ h1 {
         <p class="slogan">Le bateau qui a tout ce qu'il vous faut !</p>
     <p class="localisation">- De l'île aux oiseaux au Banc d'Arguin -</p>
    <div style="margin: 20px 0;">
-    <a href="#localisation" class="btn-localisation-header">
-        <span class="pulse-icon">📍</span> OÙ EST LE BATEAU ?
     </a>
 </div>
 
@@ -1025,9 +1020,16 @@ h1 {
         <h3>📍 ACCÈS</h3>
         <p>En plaisance<br>Au mouillage</p>
     </div>
-    <div class="footer-copyright">
-        &copy; 2026 ÉPICERIE EN MER
+
+        <div class="footer-copyright" style="width: 100%; margin-top: 10px; text-align: center;">
+            <p style="margin: 0; font-size: 0.7rem; opacity: 0.8; letter-spacing: 0.5px;">
+            <span> 🌈 Design et Création Arthur GAY <span style="display:inline-block; transform: scaleX(-1);">🌈</span></span>
+            </p>
+        <p style="margin: 5px 0 0 0; font-size: 0.7rem; opacity: 0.5;">
+            &copy; 2026 ÉPICERIE EN MER
+        </p>
     </div>
+
 </footer>
 
 <a href="tel:0659821771" class="btn-appel" onclick="cronitor('track', 'Appel_Direct')"><span class="tel-icon">📞</span> Demande d'info</a>
