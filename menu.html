@@ -260,33 +260,6 @@ div[style*="max-width: 800px"] {
     z-index: -1;
 }
 
-.bulle {
-    position: fixed;
-    bottom: -50px; /* On commence bien en dessous */
-    background: rgba(255, 255, 255, 0.4);
-    border-radius: 50%;
-    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.8);
-    pointer-events: none;
-    z-index: 1; /* Devant l'ocean (-1) mais derrière le contenu (10) */
-    animation: flotter linear forwards;
-}
-
-@keyframes flotter {
-    0% {
-        transform: translateY(0) scale(0.5);
-        opacity: 0;
-    }
-    10% {
-        opacity: 0.8;
-    }
-    90% {
-        opacity: 0.8;
-    }
-    100% {
-        transform: translateY(-110vh) scale(1.5);
-        opacity: 0;
-    }
-}
 
                 .btn-bois {
             /* Look Bleu Sobre (Sans image bois) */
@@ -535,20 +508,17 @@ footer {
     transform: scale(0.8);
 }
 
-       /* --- Bulles décoratives --- */
-       .bulle {
-         position: fixed; /* Fixé par rapport à l'écran */
-          bottom: -20px; /* Commence sous l'écran */
-    width: 10px;
-    height: 10px;
-    background: rgba(255, 255, 255, 0.5); /* Semi-transparent blanc */
-    z-index: 2;
+.bulle {
+    position: fixed;
+    bottom: -50px;
+    background: rgba(255, 255, 255, 0.4);
     border-radius: 50%;
-    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.8), 0 0 8px rgba(179, 229, 252, 0.7); /* Effet de brillance et de lumière bleue */
-    animation: flotter 10s infinite ease-out; /* Animation principale */
-    pointer-events: none; /* Ne bloque pas le clic sous la bulle */
-    z-index: 0; /* Pour qu'elles soient derrière le contenu, mais au-dessus des vagues */
-    opacity: 0; /* Invisible au départ */
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.8), 0 0 8px rgba(179, 229, 252, 0.4);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    /* On enlève 'infinite' pour que JS puisse détecter la fin */
+    animation: flotter 10s ease-out forwards; 
 }
 
 @keyframes flotter {
@@ -557,16 +527,17 @@ footer {
         opacity: 0;
     }
     10% {
-        opacity: 1; /* Apparaît */
+        opacity: 0.8;
     }
-    80% {
+    90% {
         opacity: 0.8;
     }
     100% {
-        transform: translateY(-100vh) scale(1.2); /* Remonte et grossit */
-        opacity: 0; /* Disparaît en haut */
+        transform: translateY(-110vh) scale(1.5);
+        opacity: 0;
     }
 }
+
 
 #panier-flottant {
     position: fixed;
@@ -640,15 +611,24 @@ h1 {
 
 /* LE BLOC PARENT */
 .container-map-transparent {
-    width: 92%;            /* S'adapte sur mobile */
-    max-width: 700px;      /* Largeur idéale sur tablette */
-    margin: 40px auto;     /* Espacement vertical */
-    padding: 25px;         
-    background: rgba(255, 255, 255, 0.2); 
+    width: 92%;
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-radius: 40px;   
-    text-align: center;
+    border-radius: 40px;
+    
+    /* --- AJUSTEMENTS POUR LE CENTRAGE MOBILE --- */
+    display: flex;            /* Active le mode Flexbox */
+    flex-direction: column;   /* Aligne les éléments verticalement */
+    align-items: center;      /* Centre horizontalement tous les enfants */
+    justify-content: center;  /* Centre verticalement si besoin */
+    text-align: center;       /* Centre le texte */
+    box-sizing: border-box;   /* Évite que le padding ne fasse déborder le cadre */
+    /* -------------------------------------------- */
+    
     z-index: 10;
     position: relative;
 }
@@ -657,7 +637,8 @@ h1 {
 .container-map-transparent h2 { 
     font-size: 1.6rem; 
     color: #0c4a6e; 
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
+    width: 100%;              /* Force le titre à occuper toute la largeur pour bien centrer */
 }
 
 /* LE TEXTE DANS LE BLOC */
@@ -665,8 +646,10 @@ h1 {
     font-size: 1.1rem; 
     color: #0c4a6e; 
     line-height: 1.4; 
-    margin: 10px 0; 
+    margin: 10px 0;
+    max-width: 100%;          /* Empêche le texte de sortir du cadre sur petits écrans */
 }
+
 
 
 .btn-bois-map {
@@ -1023,7 +1006,7 @@ h1 {
 
         <div class="footer-copyright" style="width: 100%; margin-top: 10px; text-align: center;">
             <p style="margin: 0; font-size: 0.7rem; opacity: 0.8; letter-spacing: 0.5px;">
-            <span> 🌈 Design et Création Arthur GAY <span style="display:inline-block; transform: scaleX(-1);">🌈</span></span>
+            <span> 🌈 Design et Création par Arthur GAY <span style="display:inline-block; transform: scaleX(-1);">🌈</span></span>
             </p>
         <p style="margin: 5px 0 0 0; font-size: 0.7rem; opacity: 0.5;">
             &copy; 2026 ÉPICERIE EN MER
@@ -1231,23 +1214,28 @@ document.querySelectorAll('.planche-container').forEach(section => {
     observer.observe(section);
 });
 
-// --- DÉCORATION : GÉNÉRATION DES BULLES ---
 function creerBulle() {
     const bulle = document.createElement('div');
     bulle.classList.add('bulle');
     document.body.appendChild(bulle);
 
     const taille = Math.random() * 20 + 5; 
+    const duree = Math.random() * 10 + 5; // On stocke la durée
+    const delai = Math.random() * 5;      // On stocke le délai
+
     bulle.style.width = `${taille}px`;
     bulle.style.height = `${taille}px`;
     bulle.style.left = `${Math.random() * 100}vw`; 
-    bulle.style.animationDuration = `${Math.random() * 10 + 5}s`; 
-    bulle.style.animationDelay = `${Math.random() * 5}s`; 
+    bulle.style.animationDuration = `${duree}s`; 
+    bulle.style.animationDelay = `${delai}s`; 
 
-    bulle.addEventListener('animationend', () => {
+    // Sécurité : Supprime la bulle après la fin de son animation (durée + délai)
+    // On multiplie par 1000 pour convertir les secondes en millisecondes
+    setTimeout(() => {
         bulle.remove();
-    });
+    }, (duree + delai + 1) * 1000);
 }
+
 
 
 
