@@ -264,25 +264,27 @@
 
     <script>
       
-    window.onload = function() {
-    updateHeight();
+   // Cette fonction fait le travail de connexion entre le CSS et le bouton
+    function synchroniserGPS() {
+        const root = document.documentElement;
+        // On récupère la variable CSS
+        let urlBrute = getComputedStyle(root).getPropertyValue('--url-gps').trim();
+        
+        // On nettoie les guillemets pour avoir un lien pur
+        const urlNettoyee = urlBrute.replace(/['"]+/g, '');
 
-    // Récupère l'URL du style et l'applique au bouton
-    const root = getComputedStyle(document.documentElement);
-    const urlGps = root.getPropertyValue('--url-gps').replace(/["']/g, '').trim();
-    const gpsLink = document.getElementById('gps-link');
-    
-    if (gpsLink) {
-        gpsLink.href = urlGps;
+        const boutonGPS = document.getElementById('gps-link');
+        if (boutonGPS && urlNettoyee !== "") {
+            boutonGPS.href = urlNettoyee;
+        }
     }
 
-    // Gestion du paramètre automatique
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('action') === 'gps') {
-        window.location.href = urlGps;
+    // Gestion de la hauteur écran (mobile)
+    function updateHeight() {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
     }
-};
-      
+
       
     function creerBulle() {
         const bulle = document.createElement('div');
