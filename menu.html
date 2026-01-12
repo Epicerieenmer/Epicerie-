@@ -601,56 +601,64 @@ footer {
 h1 {
     font-family: 'Fredoka One', cursive;
     color: #0c4a6e;
-    font-size: 2.8rem;
+    font-size: 2.4rem;
+    white-space: nowrap;       /* Interdit le passage à la ligne */
     text-shadow: 2px 2px 4px white;
     margin-bottom: 10px; /* <--- AUGMENTE ICI pour éloigner la phrase du titre */
     text-align: center;
 }
 
-
-
-/* LE BLOC PARENT */
 .container-map-transparent {
     width: 92%;
     max-width: 700px;
     margin: 40px auto;
     padding: 25px;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+
+    /* 1. Fond blanc semi-transparent */
+    background: rgba(255, 255, 255, 0.25) !important;
+    
+    /* 2. L'effet de flou (vitre dépolie) */
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    
     border-radius: 40px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     
-    /* --- AJUSTEMENTS POUR LE CENTRAGE MOBILE --- */
-    display: flex;            /* Active le mode Flexbox */
-    flex-direction: column;   /* Aligne les éléments verticalement */
-    align-items: center;      /* Centre horizontalement tous les enfants */
-    justify-content: center;  /* Centre verticalement si besoin */
-    text-align: center;       /* Centre le texte */
-    box-sizing: border-box;   /* Évite que le padding ne fasse déborder le cadre */
-    /* -------------------------------------------- */
-    
+    /* Centrage */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center;
+    box-sizing: border-box;
     z-index: 10;
     position: relative;
 }
 
-/* LE TITRE DANS LE BLOC */
+
+/* On force l'alignement des éléments à l'intérieur */
+.carte-info-bulles {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
 .container-map-transparent h2 { 
-    font-size: 1.6rem; 
+    font-size: 1.4rem;         /* Taille idéale : ni trop grosse, ni trop petite */
+    white-space: nowrap;       /* INTERDIT le retour à la ligne quoi qu'il arrive */
+    letter-spacing: -0.5px;    /* Resserre un poil les lettres pour gagner de la place */
     color: #0c4a6e; 
-    margin-bottom: 10px;
-    width: 100%;              /* Force le titre à occuper toute la largeur pour bien centrer */
+    margin: 0 0 10px 0;
+    font-family: 'Fredoka One', cursive;
 }
 
-/* LE TEXTE DANS LE BLOC */
 .container-map-transparent p { 
-    font-size: 1.1rem; 
+    font-size: 1rem;           /* Un peu plus petit pour laisser la vedette au bouton */
     color: #0c4a6e; 
-    line-height: 1.4; 
+    line-height: 1.3; 
     margin: 10px 0;
-    max-width: 100%;          /* Empêche le texte de sortir du cadre sur petits écrans */
+    max-width: 90%;            /* Évite que le texte ne colle trop aux bords du cadre */
 }
-
-
 
 .btn-bois-map {
     background-image: url('planche.bois.jpg');
@@ -689,16 +697,17 @@ h1 {
 }
 
 .mise-a-jour {
-    font-size: 0.9rem;
-    opacity: 0.8;
-    font-style: italic;
+    font-size: 0.8rem !important; /* Plus petit pour ne pas faire d'ombre au bouton */
+    opacity: 0.7;                /* Un peu plus discret */
+    margin-top: 15px !important;
 }
+
 
 .btn-localisation-header {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    padding: 12px 25px;
+    padding: 12px 20px; /* Réduit légèrement de 25px à 20px pour gagner de la place */
     
     /* Fond transparent givré */
     background: rgba(255, 255, 255, 0.2);
@@ -710,9 +719,11 @@ h1 {
     border-radius: 50px;
     color: #0c4a6e !important;
     
-    /* Typographie */
+    /* Typographie - SOLUTION 1 AJOUTÉE ICI */
     font-family: 'Fredoka One', cursive;
-    font-size: 1rem;
+    font-size: 0.9rem;          /* Taille légèrement réduite (était 1rem) */
+    white-space: nowrap;        /* Empêche le retour à la ligne */
+    letter-spacing: -0.3px;     /* Resserre un poil les lettres */
     text-decoration: none;
     
     /* Animation et ombre */
@@ -965,17 +976,18 @@ h1 {
 
 <div class="container-map-transparent" id="localisation">
     <div class="carte-info-bulles">
-        <h2 class="titre-section" style="margin-top: 0;">📍 Position du Capitaine</h2>
+        <h2 class="titre-section">📍 Position du Capitaine</h2>
         <p>Cliquez sur la boussole pour nous situer en direct sur Google Maps et venir nous aborder !</p>
         
-       <a href="index.html?action=gps" class="btn-bois-map">
-    <span class="icon-boussole">🧭</span> VOIR SUR MAPS
-</a>
- 
-        
+        <a href="index.html?action=gps" class="btn-bois-map">
+            <span class="icon-boussole">🧭</span> VOIR SUR MAPS
+        </a>
+
         <p class="mise-a-jour">Lien actif en temps réel ⚓</p>
     </div>
 </div>
+
+
      
      
 <footer>
@@ -1006,7 +1018,7 @@ h1 {
 
         <div class="footer-copyright" style="width: 100%; margin-top: 10px; text-align: center;">
             <p style="margin: 0; font-size: 0.7rem; opacity: 0.8; letter-spacing: 0.5px;">
-            <span> 🌈 Design et Création par Arthur GAY <span style="display:inline-block; transform: scaleX(-1);">🌈</span></span>
+            <span> 🌊 Design et Création par Arthur GAY <span style="display:inline-block; transform: scaleX(-1);">🌊</span></span>
             </p>
         <p style="margin: 5px 0 0 0; font-size: 0.7rem; opacity: 0.5;">
             &copy; 2026 ÉPICERIE EN MER
@@ -1236,10 +1248,8 @@ function creerBulle() {
     }, (duree + delai + 1) * 1000);
 }
 
-
-
-
     </script>
 
 </body>
 </html>
+
