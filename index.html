@@ -7,7 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Patrick+Hand&display=swap" rel="stylesheet">
     
     <style>
-        /* --- CONFIGURATION GÉNÉRALE (Optimisée sans scroll) --- */
+       
+          /* --- CONFIGURATION RAPIDE --- */
+:root {
+    --url-gps: "https://maps.app.goo.gl/6z8Er3TosWTqzhs96";
+}
+       
         body {
             margin: 0;
             padding: 0;
@@ -208,9 +213,9 @@
 
 <div class="links-container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; flex-grow: 1; z-index: 10; gap: 15px; padding: 10px 20px;">
     
-    <a href="https://maps.app.goo.gl/6z8Er3TosWTqzhs96" id="gps-link" class="btn-link gps" style="margin: 0;">
-        📍 OÙ EST LE BATEAU ?
-    </a>
+<a href="#" id="gps-link" class="btn-link gps" style="margin: 0;">
+    📍 OÙ EST LE BATEAU ?
+</a>
 
     <a href="menu.html" class="btn-link" style="margin: 0;">
         🥤 VOIR LE MENU & TARIFS
@@ -258,6 +263,27 @@
     </footer>
 
     <script>
+      
+    window.onload = function() {
+    updateHeight();
+
+    // Récupère l'URL du style et l'applique au bouton
+    const root = getComputedStyle(document.documentElement);
+    const urlGps = root.getPropertyValue('--url-gps').replace(/["']/g, '').trim();
+    const gpsLink = document.getElementById('gps-link');
+    
+    if (gpsLink) {
+        gpsLink.href = urlGps;
+    }
+
+    // Gestion du paramètre automatique
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('action') === 'gps') {
+        window.location.href = urlGps;
+    }
+};
+      
+      
     function creerBulle() {
         const bulle = document.createElement('div');
         bulle.classList.add('bulle');
