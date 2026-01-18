@@ -26,7 +26,7 @@
         /* Pour CACHER : Enlève les // devant les deux lignes ci-dessous */
 /* Pour AFFICHER : Ajoute les // devant les deux lignes ci-dessous */
 
- .panier-actif { display: none !important; } 
+ .controls-quantite button, .controls-quantite span[id^="qte-"] { display: none !important; }
  .banderole-promo { display: none !important; }
 
 
@@ -358,34 +358,51 @@ div[style*="max-width: 800px"] {
             font-family: 'Fredoka One', cursive;
         }
 
-/* Style automatique pour tous les boutons de quantité */
+/* Style global des lignes de produits */
+.ligne-produit {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+}
+
+.controls-quantite {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Style commun à TOUS les boutons +/- */
 .ligne-produit button {
     width: 28px;
     height: 28px;
     border: none;
-    border-radius: 6px;
+    border-radius: 5px;
     font-weight: bold;
     cursor: pointer;
-    transition: transform 0.1s;
-    font-family: 'Fredoka One', cursive; /* Optionnel : pour le look fun */
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Couleur du bouton MOINS (Rouge/Rose) */
+/* Bouton MOINS : Rose */
 .ligne-produit button:first-of-type {
     background-color: #f8bbd0;
     color: #c2185b;
 }
 
-/* Couleur du bouton PLUS (Vert/Bleu) */
+/* Bouton PLUS : Vert */
 .ligne-produit button:last-of-type {
     background-color: #b2dfdb;
     color: #00796b;
 }
 
-/* Petit effet quand on appuie dessus */
+/* Effet au clic */
 .ligne-produit button:active {
     transform: scale(0.9);
 }
+
 
 
 
@@ -737,7 +754,7 @@ h1 {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    padding: 12px 20px; /* Réduit légèrement de 25px à 20px pour gagner de la place */
+    padding: 12px 20px; 
     
     /* Fond transparent givré */
     background: rgba(255, 255, 255, 0.2);
@@ -751,7 +768,7 @@ h1 {
     
     /* Typographie - SOLUTION 1 AJOUTÉE ICI */
     font-family: 'Fredoka One', cursive;
-    font-size: 0.9rem;          /* Taille légèrement réduite (était 1rem) */
+    font-size: 0.9rem;          
     white-space: nowrap;        /* Empêche le retour à la ligne */
     letter-spacing: -0.3px;     /* Resserre un poil les lettres */
     text-decoration: none;
@@ -780,7 +797,61 @@ h1 {
     100% { transform: scale(1); }
 }
 
- 
+.modal-container {
+    display: none; /* Caché par défaut */
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Fond sombre */
+    backdrop-filter: blur(5px); /* Flou derrière la fenêtre */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.modal-content h3 { color: #0c4a6e; margin-top: 0; }
+
+.modal-content input {
+    width: 100%;
+    padding: 12px;
+    margin: 15px 0;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.modal-buttons { display: flex; gap: 10px; }
+
+.btn-valider {
+    background: #b2dfdb; color: #00796b; flex: 2;
+    border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer;
+}
+
+.btn-annuler {
+    background: #f5f5f5; color: #777; flex: 1;
+    border: none; padding: 12px; border-radius: 10px; cursor: pointer;
+}
+
+ .btn-supprimer {
+    background: #f8bbd0; color: #c2185b; flex: 1;
+    border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer;
+}
+
+/* On s'assure que toutes les modals ont le même comportement */
+.modal-container {
+    z-index: 10000; /* Toujours au premier plan */
+}
+
         
     </style>
 </head>
@@ -839,167 +910,140 @@ h1 {
     </div>
     
 
-    <div id="boissons" class="planche-container">
-        <h2 class="titre-section">Boissons</h2>
-        
-        <h3 style="color: #0c4a6e; border-bottom: 1px dashed #0c4a6e; margin-top: 10px;">🥤 Les Softs</h3>
-        <div class="ligne-produit">
-            <span>Soda</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">3.00€</span>
-                <button class="panier-actif" onclick="changeQuantite('Soda', 3.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-Soda">0</span>
-                <button class="panier-actif" onclick="changeQuantite('Soda', 3.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
-        </div>
-        <div class="ligne-produit">
-            <span>Eau (Plate/Gaz)</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">2.00€</span>
-                <button class="panier-actif" onclick="changeQuantite('Eau', 2.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-Eau">0</span>
-                <button class="panier-actif" onclick="changeQuantite('Eau', 2.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
-        </div>
-        <div class="ligne-produit">
-            <span>Jus de Fruits</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">3.00€</span>
-                <button class="panier-actif" onclick="changeQuantite('Jus', 3.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-Jus">0</span>
-                <button class="panier-actif" onclick="changeQuantite('Jus', 3.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
-        </div>
-        <div class="ligne-produit">
-            <span>Limonade</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">3.00€</span>
-                <button class="panier-actif" onclick="changeQuantite('Limonade', 3.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-Limonade">0</span>
-                <button class="panier-actif" onclick="changeQuantite('Limonade', 3.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
-        </div>
-        <div class="ligne-produit">
-            <span>Café</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">2.00€</span>
-                <button class="panier-actif" onclick="changeQuantite('Cafe', 2.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-Cafe">0</span>
-                <button class="panier-actif" onclick="changeQuantite('Cafe', 2.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
-        </div>
-        <div class="ligne-produit">
-            <span>Thé</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">2.00€</span>
-                <button class="panier-actif" onclick="changeQuantite('The', 2.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-The">0</span>
-                <button class="panier-actif" onclick="changeQuantite('The', 2.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
-        </div>
+<div id="boissons" class="planche-container">
+    <h2 class="titre-section">Boissons</h2>
+    
+    <h3 style="color: #0c4a6e; border-bottom: 1px dashed #0c4a6e; margin-top: 10px;">🥤 Les Softs</h3>
+    <div class="ligne-produit"><span>Soda</span><div class="controls-quantite"><span class="prix">3.00€</span><button onclick="changeQuantite('Soda', 3.00, -1)">-</button><span id="qte-Soda">0</span><button onclick="changeQuantite('Soda', 3.00, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Eau (Plate/Gaz)</span><div class="controls-quantite"><span class="prix">2.00€</span><button onclick="changeQuantite('Eau', 2.00, -1)">-</button><span id="qte-Eau">0</span><button onclick="changeQuantite('Eau', 2.00, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Jus de Fruits</span><div class="controls-quantite"><span class="prix">3.00€</span><button onclick="changeQuantite('Jus', 3.00, -1)">-</button><span id="qte-Jus">0</span><button onclick="changeQuantite('Jus', 3.00, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Limonade</span><div class="controls-quantite"><span class="prix">3.00€</span><button onclick="changeQuantite('Limonade', 3.00, -1)">-</button><span id="qte-Limonade">0</span><button onclick="changeQuantite('Limonade', 3.00, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Café</span><div class="controls-quantite"><span class="prix">2.00€</span><button onclick="changeQuantite('Cafe', 2.00, -1)">-</button><span id="qte-Cafe">0</span><button onclick="changeQuantite('Cafe', 2.00, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Thé</span><div class="controls-quantite"><span class="prix">2.00€</span><button onclick="changeQuantite('The', 2.00, -1)">-</button><span id="qte-The">0</span><button onclick="changeQuantite('The', 2.00, 1)">+</button></div></div>
 
-        <h3 style="color: #0c4a6e; border-bottom: 1px dashed #0c4a6e; margin-top: 20px;">🍻 Les Alcoolisés</h3>
-        <div class="ligne-produit">
-            <span>Bière Fraîche</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">4.00€</span>
-                <button class="panier-actif" onclick="changeQuantite('Biere', 4.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-Biere">0</span>
-                <button class="panier-actif" onclick="changeQuantite('Biere', 4.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
-        </div>
-        <div class="ligne-produit">
-            <span>Vin Rosé</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="prix">15.00€</span>
-                <button class="panier-actif" onclick="changeQuantite('Vin_Rose', 15.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button>
-                <span class="panier-actif" id="qte-Vin_Rose">0</span>
-                <button class="panier-actif" onclick="changeQuantite('Vin_Rose', 15.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="snack" class="planche-container">
-        <h2 class="titre-section">Snacks</h2>
-<div id="section-matin" style="display: none; background: rgba(224, 247, 250, 0.6); border-radius:15px ; padding: 10px; margin-bottom: 15px;">
-    <p style="text-align:center; margin: 0; font-weight:bold; color:#6d4c41; font-size: 0.9rem;">LE COIN BOULANGER 8h-12h</p>
-    <div class="ligne-produit"><span>Chocolatine</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">1.50€</span><button class="panier-actif" onclick="changeQuantite('Chocolatine', 1.50, -1)">-</button><span class="panier-actif" id="qte-Chocolatine">0</span><button class="panier-actif" onclick="changeQuantite('Chocolatine', 1.50, 1)">+</button></div></div>
-    <div class="ligne-produit"><span>Croissant</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">1.50€</span><button class="panier-actif" onclick="changeQuantite('Croissant', 1.50, -1)">-</button><span class="panier-actif" id="qte-Croissant">0</span><button class="panier-actif" onclick="changeQuantite('Croissant', 1.50, 1)">+</button></div></div>
+    <h3 style="color: #0c4a6e; border-bottom: 1px dashed #0c4a6e; margin-top: 20px;">🍻 Les Alcoolisés</h3>
+    <div class="ligne-produit"><span>Bière Fraîche</span><div class="controls-quantite"><span class="prix">4.00€</span><button onclick="changeQuantite('Biere', 4.00, -1)">-</button><span id="qte-Biere">0</span><button onclick="changeQuantite('Biere', 4.00, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Vin Rosé</span><div class="controls-quantite"><span class="prix">15.00€</span><button onclick="changeQuantite('Vin_Rose', 15.00, -1)">-</button><span id="qte-Vin_Rose">0</span><button onclick="changeQuantite('Vin_Rose', 15.00, 1)">+</button></div></div>
 </div>
 
-<div class="ligne-produit"><span>Cookie Maison 🍪</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">2.50€</span><button class="panier-actif" onclick="changeQuantite('Cookie', 2.50, -1)">-</button><span class="panier-actif" id="qte-Cookie">0</span><button class="panier-actif" onclick="changeQuantite('Cookie', 2.50, 1)">+</button></div></div>
+<div id="snack" class="planche-container">
+    <h2 class="titre-section">Snacks</h2>
+    <div id="section-matin" style="display: none; background: rgba(224, 247, 250, 0.6); border-radius:15px ; padding: 10px; margin-bottom: 15px;">
+        <p style="text-align:center; margin: 0; font-weight:bold; color:#6d4c41; font-size: 0.9rem;">LE COIN BOULANGER 8h-12h</p>
+        <div class="ligne-produit"><span>Chocolatine</span><div class="controls-quantite"><span class="prix">1.50€</span><button onclick="changeQuantite('Chocolatine', 1.50, -1)">-</button><span id="qte-Chocolatine">0</span><button onclick="changeQuantite('Chocolatine', 1.50, 1)">+</button></div></div>
+        <div class="ligne-produit"><span>Croissant</span><div class="controls-quantite"><span class="prix">1.50€</span><button onclick="changeQuantite('Croissant', 1.50, -1)">-</button><span id="qte-Croissant">0</span><button onclick="changeQuantite('Croissant', 1.50, 1)">+</button></div></div>
+    </div>
 
-        <div class="ligne-produit"><span>Barre de Céréales</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">1.50€</span><button class="panier-actif" onclick="changeQuantite('Barre_Cereale', 1.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button><span class="panier-actif" id="qte-Barre_Cereale">0</span><button class="panier-actif" onclick="changeQuantite('Barre_Cereale', 1.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button></div></div>
-        <div class="ligne-produit"><span>Bonbons</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">2.00€</span><button class="panier-actif" onclick="changeQuantite('Bonbons', 2.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button><span class="panier-actif" id="qte-Bonbons">0</span><button class="panier-actif" onclick="changeQuantite('Bonbons', 2.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button></div></div>
-        <div class="ligne-produit"><span>Paquet de Chips</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">2.50€</span><button class="panier-actif" onclick="changeQuantite('Chips', 2.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button><span class="panier-actif" id="qte-Chips">0</span><button class="panier-actif" onclick="changeQuantite('Chips', 2.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button></div></div>
-        <div class="ligne-produit"><span>Saucisson</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">5.00€</span><button class="panier-actif" onclick="changeQuantite('Saucisson', 5.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button><span class="panier-actif" id="qte-Saucisson">0</span><button class="panier-actif" onclick="changeQuantite('Saucisson', 5.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button></div></div>
-        <div class="ligne-produit"><span>Pâté</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">3.50€</span><button class="panier-actif" onclick="changeQuantite('Pate', 3.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button><span class="panier-actif" id="qte-Pate">0</span><button class="panier-actif" onclick="changeQuantite('Pate', 3.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button></div></div>
-        <div class="ligne-produit"><span>Huîtres (les 6)</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">8.00€</span><button class="panier-actif" onclick="changeQuantite('Huitres_6', 8.00, -1)">-</button><span class="panier-actif" id="qte-Huitres_6">0</span><button class="panier-actif" onclick="changeQuantite('Huitres_6', 8.00, 1)">+</button></div></div>
-        <div class="ligne-produit"><span>Huîtres (les 12)</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">15.00€</span><button class="panier-actif" onclick="changeQuantite('Huitres_12', 15.00, -1)">-</button><span class="panier-actif" id="qte-Huitres_12">0</span><button class="panier-actif" onclick="changeQuantite('Huitres_12', 15.00, 1)">+</button></div></div>
-        <div class="ligne-produit"><span>Citron jaune (l'unité)</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">0.50€</span><button class="panier-actif" onclick="changeQuantite('Citron', 0.50, -1)">-</button><span class="panier-actif" id="qte-Citron">0</span><button class="panier-actif" onclick="changeQuantite('Citron', 0.50, 1)">+</button></div></div>
-  </div>
+    <div class="ligne-produit"><span>Cookie Maison 🍪</span><div class="controls-quantite"><span class="prix">2.50€</span><button onclick="changeQuantite('Cookie', 2.50, -1)">-</button><span id="qte-Cookie">0</span><button onclick="changeQuantite('Cookie', 2.50, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Barre de Céréales</span><div class="controls-quantite"><span class="prix">1.50€</span><button onclick="changeQuantite('Barre_Cereale', 1.50, -1)">-</button><span id="qte-Barre_Cereale">0</span><button onclick="changeQuantite('Barre_Cereale', 1.50, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Bonbons</span><div class="controls-quantite"><span class="prix">2.00€</span><button onclick="changeQuantite('Bonbons', 2.00, -1)">-</button><span id="qte-Bonbons">0</span><button onclick="changeQuantite('Bonbons', 2.00, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Paquet de Chips</span><div class="controls-quantite"><span class="prix">2.50€</span><button onclick="changeQuantite('Chips', 2.50, -1)">-</button><span id="qte-Chips">0</span><button onclick="changeQuantite('Chips', 2.50, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Saucisson</span><div class="controls-quantite"><span class="prix">5.00€</span><button onclick="changeQuantite('Saucisson', 5.00, -1)">-</button><span id="qte-Saucisson">0</span><button onclick="changeQuantite('Saucisson', 5.00, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Pâté</span><div class="controls-quantite"><span class="prix">3.50€</span><button onclick="changeQuantite('Pate', 3.50, -1)">-</button><span id="qte-Pate">0</span><button onclick="changeQuantite('Pate', 3.50, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Huîtres (les 6)</span><div class="controls-quantite"><span class="prix">8.00€</span><button onclick="changeQuantite('Huitres_6', 8.00, -1)">-</button><span id="qte-Huitres_6">0</span><button onclick="changeQuantite('Huitres_6', 8.00, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Huîtres (les 12)</span><div class="controls-quantite"><span class="prix">15.00€</span><button onclick="changeQuantite('Huitres_12', 15.00, -1)">-</button><span id="qte-Huitres_12">0</span><button onclick="changeQuantite('Huitres_12', 15.00, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Citron jaune (l'unité)</span><div class="controls-quantite"><span class="prix">0.50€</span><button onclick="changeQuantite('Citron', 0.50, -1)">-</button><span id="qte-Citron">0</span><button onclick="changeQuantite('Citron', 0.50, 1)">+</button></div></div>
+</div>
 
 <div id="glace" class="planche-container" style="position: relative;">
     <span class="badge-frais">Ultra frais ! ❄️</span>
     <h2 class="titre-section">Glaces</h2>
+    <div class="ligne-produit"><span style="font-weight: bold;">SAC DE GLACE (2KG)</span><div class="controls-quantite"><span class="prix">4.00€</span><button onclick="changeQuantite('Glace_Sac', 4.00, -1)">-</button><span id="qte-Glace_Sac">0</span><button onclick="changeQuantite('Glace_Sac', 4.00, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Mister Freeze</span><div class="controls-quantite"><span class="prix">1.00€</span><button onclick="changeQuantite('Mister_Freeze', 1.00, -1)">-</button><span id="qte-Mister_Freeze">0</span><button onclick="changeQuantite('Mister_Freeze', 1.00, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Glace Fusée</span><div class="controls-quantite"><span class="prix">2.50€</span><button onclick="changeQuantite('Fusee', 2.50, -1)">-</button><span id="qte-Fusee">0</span><button onclick="changeQuantite('Fusee', 2.50, 1)">+</button></div></div>
+</div>
 
+<div id="vetement" class="planche-container">
+    <h2 class="titre-section">Vêtements</h2>
+    <div class="ligne-produit"><span>T-shirt Marin</span><div class="controls-quantite"><span class="prix">15.00€</span><button onclick="changeQuantite('Tshirt', 15.00, -1)">-</button><span id="qte-Tshirt">0</span><button onclick="changeQuantite('Tshirt', 15.00, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Casquette</span><div class="controls-quantite"><span class="prix">12.00€</span><button onclick="changeQuantite('Casquette', 12.00, -1)">-</button><span id="qte-Casquette">0</span><button onclick="changeQuantite('Casquette', 12.00, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Serviette</span><div class="controls-quantite"><span class="prix">18.00€</span><button onclick="changeQuantite('Serviette', 18.00, -1)">-</button><span id="qte-Serviette">0</span><button onclick="changeQuantite('Serviette', 18.00, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Chaussons d'eau</span><div class="controls-quantite"><span class="prix">10.00€</span><button onclick="changeQuantite('Chaussons', 10.00, -1)">-</button><span id="qte-Chaussons">0</span><button onclick="changeQuantite('Chaussons', 10.00, 1)">+</button></div></div>
+</div>
+
+<div id="divers" class="planche-container">
+    <h2 class="titre-section">Divers</h2>
+    
     <div class="ligne-produit">
-        <span style="font-weight: bold;">SAC DE GLACE (2KG)</span>
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <span class="prix">4.00€</span>
-            <button class="panier-actif" onclick="changeQuantite('Glace_Sac', 4.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; width:25px; height:25px; font-weight:bold;">-</button>
-            <span class="panier-actif" id="qte-Glace_Sac">0</span>
-            <button class="panier-actif" onclick="changeQuantite('Glace_Sac', 4.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; width:25px; height:25px; font-weight:bold;">+</button>
+        <span>Parasol</span>
+        <div class="controls-quantite">
+            <span class="prix">20.00€</span>
+            <button onclick="changeQuantite('Parasol', 20.00, -1)">-</button>
+            <span id="qte-Parasol">0</span>
+            <button onclick="changeQuantite('Parasol', 20.00, 1)">+</button>
         </div>
     </div>
 
     <div class="ligne-produit">
-        <span>Mister Freeze</span>
-        <div style="display: flex; align-items: center; gap: 10px;">
+        <span>Crème Solaire</span>
+        <div class="controls-quantite">
+            <span class="prix">9.00€</span>
+            <button onclick="changeQuantite('Creme_Solaire', 9.00, -1)">-</button>
+            <span id="qte-Creme_Solaire">0</span>
+            <button onclick="changeQuantite('Creme_Solaire', 9.00, 1)">+</button>
+        </div>
+    </div>
+
+    <div class="ligne-produit">
+        <span>Jeux de cartes</span>
+        <div class="controls-quantite">
+            <span class="prix">5.00€</span>
+            <button onclick="changeQuantite('Cartes', 5.00, -1)">-</button>
+            <span id="qte-Cartes">0</span>
+            <button onclick="changeQuantite('Cartes', 5.00, 1)">+</button>
+        </div>
+    </div>
+
+    <div class="ligne-produit">
+        <span>Couteau à huîtres</span>
+        <div class="controls-quantite">
+            <span class="prix">7.00€</span>
+            <button onclick="changeQuantite('Couteau_Huitre', 7.00, -1)">-</button>
+            <span id="qte-Couteau_Huitre">0</span>
+            <button onclick="changeQuantite('Couteau_Huitre', 7.00, 1)">+</button>
+        </div>
+    </div>
+
+    <div class="ligne-produit">
+        <span>Limonadier</span>
+        <div class="controls-quantite">
+            <span class="prix">6.00€</span>
+            <button onclick="changeQuantite('Limonadier', 6.00, -1)">-</button>
+            <span id="qte-Limonadier">0</span>
+            <button onclick="changeQuantite('Limonadier', 6.00, 1)">+</button>
+        </div>
+    </div>
+
+    <div class="ligne-produit">
+        <span>Gobelet Réutilisable</span>
+        <div class="controls-quantite">
             <span class="prix">1.00€</span>
-            <button class="panier-actif" onclick="changeQuantite('Mister_Freeze', 1.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; width:25px; height:25px; font-weight:bold;">-</button>
-            <span class="panier-actif" id="qte-Mister_Freeze">0</span>
-            <button class="panier-actif" onclick="changeQuantite('Mister_Freeze', 1.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; width:25px; height:25px; font-weight:bold;">+</button>
+            <button onclick="changeQuantite('Gobelet', 1.00, -1)">-</button>
+            <span id="qte-Gobelet">0</span>
+            <button onclick="changeQuantite('Gobelet', 1.00, 1)">+</button>
         </div>
     </div>
 
     <div class="ligne-produit">
-        <span>Glace Fusée</span>
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <span class="prix">2.50€</span>
-            <button class="panier-actif" onclick="changeQuantite('Fusee', 2.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; width:25px; height:25px; font-weight:bold;">-</button>
-            <span class="panier-actif" id="qte-Fusee">0</span>
-            <button class="panier-actif" onclick="changeQuantite('Fusee', 2.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; width:25px; height:25px; font-weight:bold;">+</button>
+        <span>Pochette de téléphone étanche</span>
+        <div class="controls-quantite">
+            <span class="prix">10.00€</span>
+            <button onclick="changeQuantite('Pochette_Tel', 10.00, -1)">-</button>
+            <span id="qte-Pochette_Tel">0</span>
+            <button onclick="changeQuantite('Pochette_Tel', 10.00, 1)">+</button>
         </div>
     </div>
 </div>
 
-    <div id="vetement" class="planche-container">
-        <h2 class="titre-section">Vêtements</h2>
-        <div class="ligne-produit"><span>T-shirt Marin</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">15.00€</span><button class="panier-actif" onclick="changeQuantite('Tshirt', 15.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button><span class="panier-actif" id="qte-Tshirt">0</span><button class="panier-actif" onclick="changeQuantite('Tshirt', 15.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button></div></div>
-        <div class="ligne-produit"><span>Casquette</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">12.00€</span><button class="panier-actif" onclick="changeQuantite('Casquette', 12.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button><span class="panier-actif" id="qte-Casquette">0</span><button class="panier-actif" onclick="changeQuantite('Casquette', 12.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button></div></div>
-        <div class="ligne-produit"><span>Serviette</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">18.00€</span><button class="panier-actif" onclick="changeQuantite('Serviette', 18.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button><span class="panier-actif" id="qte-Serviette">0</span><button class="panier-actif" onclick="changeQuantite('Serviette', 18.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button></div></div>
-        <div class="ligne-produit"><span>Chaussons d'eau</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">10.00€</span><button class="panier-actif" onclick="changeQuantite('Chaussons', 10.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button><span class="panier-actif" id="qte-Chaussons">0</span><button class="panier-actif" onclick="changeQuantite('Chaussons', 10.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button></div></div>
-    </div>
 
-    <div id="divers" class="planche-container">
-        <h2 class="titre-section">Divers</h2>
-        <div class="ligne-produit"><span>Parasol</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">20.00€</span><button class="panier-actif" onclick="changeQuantite('Parasol', 20.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button><span class="panier-actif" id="qte-Parasol">0</span><button class="panier-actif" onclick="changeQuantite('Parasol', 20.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button></div></div>
-        <div class="ligne-produit"><span>Crème Solaire</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">9.00€</span><button class="panier-actif" onclick="changeQuantite('Creme_Solaire', 9.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button><span class="panier-actif" id="qte-Creme_Solaire">0</span><button class="panier-actif" onclick="changeQuantite('Creme_Solaire', 9.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button></div></div>
-        <div class="ligne-produit"><span>Jeux de cartes</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">5.00€</span><button class="panier-actif" onclick="changeQuantite('Cartes', 5.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button><span class="panier-actif" id="qte-Cartes">0</span><button class="panier-actif" onclick="changeQuantite('Cartes', 5.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button></div></div>
-        <div class="ligne-produit"><span>Couteau à huîtres</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">7.00€</span><button class="panier-actif" onclick="changeQuantite('Couteau_Huitre', 7.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button><span class="panier-actif" id="qte-Couteau_Huitre">0</span><button class="panier-actif" onclick="changeQuantite('Couteau_Huitre', 7.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button></div></div>
-        <div class="ligne-produit"><span>Limonadier</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">6.00€</span><button class="panier-actif" onclick="changeQuantite('Limonadier', 6.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button><span class="panier-actif" id="qte-Limonadier">0</span><button class="panier-actif" onclick="changeQuantite('Limonadier', 6.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button></div></div>
-        <div class="ligne-produit"><span>Gobelet Réutilisable</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">1.00€</span><button class="panier-actif" onclick="changeQuantite('Gobelet', 1.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button><span class="panier-actif" id="qte-Gobelet">0</span><button class="panier-actif" onclick="changeQuantite('Gobelet', 1.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button></div></div>
-        <div class="ligne-produit"><span>Pochette de télèphone étanche</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">10.00€</span><button class="panier-actif" onclick="changeQuantite('Pochette_Tel', 10.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button><span class="panier-actif" id="qte-Pochette_Tel">0</span><button class="panier-actif" onclick="changeQuantite('Pochette_Tel', 10.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button></div></div>
-    </div>
+<div id="peche" class="planche-container">
+    <h2 class="titre-section">Pêche</h2>
+    <div class="ligne-produit"><span>Plombs</span><div class="controls-quantite"><span class="prix">2.00€</span><button onclick="changeQuantite('Plombs', 2.00, -1)">-</button><span id="qte-Plombs">0</span><button onclick="changeQuantite('Plombs', 2.00, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Hameçons (pochette)</span><div class="controls-quantite"><span class="prix">3.00€</span><button onclick="changeQuantite('Hamecons', 3.00, -1)">-</button><span id="qte-Hamecons">0</span><button onclick="changeQuantite('Hamecons', 3.00, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Fil de pêche</span><div class="controls-quantite"><span class="prix">4.50€</span><button onclick="changeQuantite('Fil', 4.50, -1)">-</button><span id="qte-Fil">0</span><button onclick="changeQuantite('Fil', 4.50, 1)">+</button></div></div>
+    <div class="ligne-produit"><span>Turluttes (Seiche)</span><div class="controls-quantite"><span class="prix">6.00€</span><button onclick="changeQuantite('Turluttes', 6.00, -1)">-</button><span id="qte-Turluttes">0</span><button onclick="changeQuantite('Turluttes', 6.00, 1)">+</button></div></div>
+</div>
 
-    <div id="peche" class="planche-container">
-        <h2 class="titre-section">Pêche</h2>
-        <div class="ligne-produit"><span>Plombs</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">2.00€</span><button class="panier-actif" onclick="changeQuantite('Plombs', 2.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button><span class="panier-actif" id="qte-Plombs">0</span><button class="panier-actif" onclick="changeQuantite('Plombs', 2.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button></div></div>
-        <div class="ligne-produit"><span>Hameçons (pochette)</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">3.00€</span><button class="panier-actif" onclick="changeQuantite('Hamecons', 3.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button><span class="panier-actif" id="qte-Hamecons">0</span><button class="panier-actif" onclick="changeQuantite('Hamecons', 3.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button></div></div>
-        <div class="ligne-produit"><span>Fil de pêche</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">4.50€</span><button class="panier-actif" onclick="changeQuantite('Fil', 4.50, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button><span class="panier-actif" id="qte-Fil">0</span><button class="panier-actif" onclick="changeQuantite('Fil', 4.50, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button></div></div>
-        <div class="ligne-produit"><span>Turluttes (Seiche)</span><div style="display: flex; align-items: center; gap: 10px;"><span class="prix">6.00€</span><button class="panier-actif" onclick="changeQuantite('Turluttes', 6.00, -1)" style="background:#f8bbd0; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">-</button><span class="panier-actif" id="qte-Turluttes">0</span><button class="panier-actif" onclick="changeQuantite('Turluttes', 6.00, 1)" style="background:#b2dfdb; border:none; border-radius:5px; cursor:pointer; width:25px; height:25px; font-weight:bold;">+</button></div></div>
-    </div>
 
 
 <div id="panier-flottant" class="panier-actif">   
@@ -1007,10 +1051,22 @@ h1 {
         <span style="white-space:nowrap; font-family:'Fredoka One'; background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:8px;">
             Total: <span id="total-prix">0.00</span>€
         </span>
-        <button onclick="viderPanier()" title="Vider le panier" style="background:none; border:none; font-size:1.2rem; cursor:pointer; padding:5px;">🗑️</button>
+        <button onclick="demanderViderPanier()" title="Vider le panier" style="background:none; border:none; font-size:1.2rem; cursor:pointer; padding:5px;">🗑️</button>
     </div>
    <button onclick="envoyerWhatsApp()" class="btn-commander">Commander ⚓</button>
 </div>
+
+<div id="modal-delete" class="modal-container">
+    <div class="modal-content">
+        <h3 style="color: #c2185b;">🗑️ Vider le panier ?</h3>
+        <p>Êtes-vous sûr de vouloir supprimer tous les articles de votre panier ?</p>
+        <div class="modal-buttons">
+            <button onclick="viderPanier()" class="btn-supprimer">Oui, vider</button>
+            <button onclick="fermerModalDelete()" class="btn-annuler">Annuler</button>
+        </div>
+    </div>
+</div>
+
 
 
 <div class="container-map-transparent" id="localisation">
@@ -1038,11 +1094,11 @@ h1 {
         <p>VHF : Canal 72</p>
         
         <div style="margin-top: 15px; display: flex; justify-content: center; gap: 15px;">
-            <a href="URL_FACEBOOK" target="_blank" onclick="cronitor('track', 'Clic_Facebook')" style="display: inline-block;">
+            <a href="https://www.facebook.com/share/1aiQHVDqWq/" target="_blank" onclick="cronitor('track', 'Clic_Facebook')" style="display: inline-block;">
                 <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" width="25" alt="Facebook">
             </a>
 
-            <a href="URL_INSTAGRAM" target="_blank" onclick="cronitor('track', 'Clic_Instagram')" style="display: inline-block;">
+            <a href="https://www.instagram.com/epicerieenmer?igsh=NXNwOGV6dzhoZTU2" target="_blank" onclick="cronitor('track', 'Clic_Instagram')" style="display: inline-block;">
                 <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="25" alt="Instagram">
             </a>
         </div>
@@ -1068,6 +1124,16 @@ h1 {
 
 <a href="#" id="scrollTop" class="scroll-top">↑</a>
 
+<div id="modal-bateau" class="modal-container">
+    <div class="modal-content">
+        <h3>🛥️ Nom de votre bateau</h3>
+        <p>Pour que nous puissions préparer votre commande, merci d'indiquer son nom :</p>
+        <input type="text" id="input-nom-bateau" placeholder="Ex: L'Oiseau Bleu..." onkeypress="if(event.key === 'Enter') finaliserCommande()">
+        <div class="modal-buttons">
+       <button onclick="finaliserCommande()" class="btn-valider">Valider la commande</button>  <button onclick="fermerModal()" class="btn-annuler">Annuler</button>
+        </div>
+    </div>
+</div>
 
     <script>
  
@@ -1174,26 +1240,34 @@ function calculerTotal() {
     }
 }
 
-// Vider tout le panier d'un coup
-function viderPanier() {
-    if (confirm("Voulez-vous vraiment vider tout votre panier ?")) {
-        panier = {};
-        
-        // Remise à zéro visuelle de tous les compteurs
-        const compteurs = document.querySelectorAll('[id^="qte-"]');
-        compteurs.forEach(span => {
-            span.innerText = "0";
-        });
-
-        localStorage.removeItem('monPanierEpicerie');
-        calculerTotal();
-    }
+// 1. Déclenche l'ouverture de la pop-up de confirmation
+function demanderViderPanier() {
+    document.getElementById('modal-delete').style.display = 'flex';
 }
 
+// 2. Exécute le vidage réel du panier (appelé par le bouton "Oui" de la pop-up)
+function viderPanier() {
+    panier = {};
+    
+    // Remise à zéro visuelle de tous les compteurs
+    const compteurs = document.querySelectorAll('[id^="qte-"]');
+    compteurs.forEach(span => {
+        span.innerText = "0";
+    });
 
+    localStorage.removeItem('monPanierEpicerie');
+    calculerTotal();
+    
+    // On ferme la modale si elle était ouverte
+    fermerModalDelete();
+}
+
+// 3. Ferme la pop-up de suppression
+function fermerModalDelete() {
+    document.getElementById('modal-delete').style.display = 'none';
+}
 
 function envoyerWhatsApp() {
-    // 1. Vérification si le panier est vide
     let empty = true;
     for (let i in panier) {
         if (panier[i].qte > 0) {
@@ -1207,41 +1281,51 @@ function envoyerWhatsApp() {
         return;
     }
 
-    // 2. LA POP-UP : Demande le nom du bateau
-    let nomBateau = prompt("⚓ Qu'elle est le nom de votre bateau ? ⚓");
-
-    // Si le client clique sur "Annuler"
-    if (nomBateau === null) return; 
+    document.getElementById('modal-bateau').style.display = 'flex';
     
-    // Si le client laisse vide
+    setTimeout(() => {
+        document.getElementById('input-nom-bateau').focus();
+    }, 100);
+}
+
+function finaliserCommande() {
+    let nomBateau = document.getElementById('input-nom-bateau').value;
+
     if (nomBateau.trim() === "") {
-        alert("Nous avons besoin du nom du bateau pour vous livrer ! ⛵");
+        alert("Nous avons besoin du nom du bateau pour la commande ! ⛵");
         return;
     }
 
-    // 3. Construction du message WhatsApp
+    // 1. Construction du message
     let m = "Bonjour l'Épicerie en Mer ! ⚓ Voici ma commande :%0A%0A";
     
     for (let i in panier) {
         if (panier[i].qte > 0) {
             let nomPropre = i.replace(/_/g, ' '); 
             nomPropre = nomPropre.charAt(0).toUpperCase() + nomPropre.slice(1);
-            m += `✅ ${panier[i].qte}x ${nomPropre}%0A`;
+            m += `${panier[i].qte}x ${nomPropre}%0A`;
         }
     }
     
-    m += `%0A💰 *TOTAL : ${total.toFixed(2)}€*%0A`;
-    m += `📍 *LIVRAISON : ${nomBateau.toUpperCase()}*`;
+    m += `%0A *TOTAL : ${total.toFixed(2)}€*%0A`;
+    m += ` LIVRAISON : ${nomBateau.toUpperCase()}`;
     
-    // 4. Ouverture de WhatsApp
+    // 2. Ouverture de WhatsApp (Le vrai lien)
     window.open(`https://wa.me/33659821771?text=${m}`, '_blank');
 
-    // 5. Proposition de vider le panier
+    // 3. Fermer la fenêtre du nom
+    document.getElementById('modal-bateau').style.display = 'none';
+    
+    // 4. Ouvrir la fenêtre de demande de vidage du panier
     setTimeout(() => {
-        if(confirm("Commande envoyée ! Voulez-vous vider votre panier actuel ?")) {
-            viderPanier();
-        }
+        demanderViderPanier();
     }, 1200);
+}
+
+
+function fermerModal() {
+    document.getElementById('modal-bateau').style.display = 'none';
+    document.getElementById('input-nom-bateau').value = "";
 }
 
 

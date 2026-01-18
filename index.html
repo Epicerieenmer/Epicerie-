@@ -161,18 +161,74 @@
             100% { transform: scale(1); box-shadow: 0 4px #0081cb, 0 8px 20px rgba(0, 176, 255, 0.3); }
         }
 
-        /* --- SPONSOR --- */
-        .sponsor-box {
-            width: 100%;
-            max-width: 320px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: 2px dashed #0c4a6e;
-            border-radius: 30px;
-            padding: 12px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
+/* --- ESPACE PARTENAIRE PRO --- */
+.sponsor-card {
+    margin: 30px auto;
+    padding: 20px 15px;
+    width: 85%;
+    max-width: 320px;
+    border: 1.5px dashed #0c4a6e; /* Pointillés plus fins pour plus d'élégance */
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+.sponsor-label {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0c4a6e; /* Fond plein pour faire ressortir le titre */
+    color: white;
+    padding: 2px 12px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.65rem;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+.sponsor-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.sponsor-logo-box {
+    width: 60px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(12, 74, 110, 0.2);
+    border-radius: 8px; /* Carré arrondi plus pro que le rond */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.sponsor-logo-box span {
+    font-size: 0.6rem;
+    color: #0c4a6e;
+    font-family: 'Fredoka One';
+    opacity: 0.5;
+    text-align: center;
+}
+
+.sponsor-name {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.95rem;
+    color: #0c4a6e;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.sponsor-info {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 0.85rem;
+    color: #0c4a6e;
+    opacity: 0.8;
+}
+
 
         /* --- FOOTER --- */
         footer {
@@ -221,17 +277,24 @@
         🥤 VOIR LE MENU & TARIFS
     </a>
 
-    <div class="sponsor-box" style="margin: 0; padding: 10px; width: 100%; max-width: 320px;">
-        <p style="font-family:'Fredoka One'; font-size: 0.65rem; margin:0 0 5px 0; opacity: 0.7;">✨ ESPACE PARTENAIRE</p>
-        <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-            <div style="width:35px; height:35px; background:rgba(0,0,0,0.1); border-radius:50%;"></div>
-            <p style="margin:0; font-size: 0.85rem;">VOTRE MARQUE ICI<br><small>Saison 2026</small></p>
+<div class="sponsor-card">
+    <div class="sponsor-label">ESPACE PARTENAIRE</div>
+    
+    <div class="sponsor-content">
+        <div class="sponsor-logo-box">
+            <span>LOGO<br>ICI</span>
+        </div>
+        <div style="text-align: left;">
+            <p class="sponsor-name">VOTRE ENTREPRISE</p>
+            <div class="sponsor-info">Annonceur Saison 2026</div>
         </div>
     </div>
+</div>
 
-    <a href="URL_INSTAGRAM" style="text-decoration:none; color:#0c4a6e; font-family:'Fredoka One'; display:flex; align-items:center; gap:8px; font-size: 0.95rem;">
+
+    <a href="https://www.instagram.com/epicerieenmer?igsh=NXNwOGV6dzhoZTU2" style="text-decoration:none; color:#0c4a6e; font-family:'Fredoka One'; display:flex; align-items:center; gap:8px; font-size: 0.95rem;">
         <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="24" alt="Insta">
-        <span>@epicerie.en.mer</span>
+        <span>@epicerieenmer</span>
     </a>
 
 </div>
